@@ -1,3 +1,5 @@
+We dont have to follow this implementation plan for this project.
+
 # EthosEngine Implementation Plan
 **Project**: AI Governance & Compliance Platform  
 **Target**: IBM 2026 Hackathon (Ethical AI & Governance)  

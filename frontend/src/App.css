@@ -1,0 +1,69 @@
+/* Global app container */
+.app-container {
+  min-height: 100vh;
+  background-color: #161616;
+  color: #f4f4f4;
+}
+
+/* Header styling */
+.app-header {
+  padding: 2rem;
+  background-color: #262626;
+  border-bottom: 1px solid #393939;
+  text-align: center;
+}
+
+.app-header h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: #ffffff;
+}
+
+.app-header p {
+  font-size: 1rem;
+  color: #c6c6c6;
+  margin: 0;
+}
+
+/* Main content area */
+.app-main {
+  padding: 3rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Welcome message */
+.welcome-message {
+  text-align: center;
+  padding: 3rem;
+  background-color: #262626;
+  border-radius: 8px;
+  border: 1px solid #393939;
+}
+
+.welcome-message h2 {
+  font-size: 2rem;
+  font-weight: 500;
+  margin: 0 0 1rem 0;
+  color: #ffffff;
+}
+
+.welcome-message p {
+  font-size: 1.125rem;
+  color: #c6c6c6;
+  margin: 0.5rem 0;
+  line-height: 1.6;
+}
+
+.status-message {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: #198038;
+  border-radius: 4px;
+  color: #ffffff;
+  font-weight: 500;
+  line-height: 2;
+}
+
+/* Made with Bob */
