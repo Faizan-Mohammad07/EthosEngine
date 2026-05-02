@@ -1,51 +1,29 @@
 
 
-I'll analyze Task 4 of Priority 2 from the hackathon plan and break it down into manageable subtasks.
-
-Looking at the document, Priority 2 (Hour 4-8: Backend Foundation) has 4 tasks, and Task 4 is:
-
-"CORS & Error Handling" (30 min)
-
-Enable CORS for frontend connection
-Implement proper error responses
-Add request validation
-Let me examine the current backend implementation to understand what needs to be done.
-
-
-
-I need to switch to a mode that can read files to assess the current state of the backend before delegating the CORS and error handling task.
-
-
-I want to switch to code mode because: Need to examine the current backend implementation to understand what CORS and error handling features are already in place before creating a comprehensive implementation plan
-
-
-Now I can read the backend files to assess the current implementation and complete Task 4 of Priority 2.
+I'll implement Task 2 of Priority 2: IBM Granite Guardian Integration. Let me start by examining the existing backend files to understand the current state.
 
 
 I want to read these files:
 
 
-Perfect! I can see the current state of the backend. Let me analyze what's already implemented for Task 4 (CORS & Error Handling):
-
-Current Status:
-
-✅ CORS is already configured (lines 70-77 in main.py)
-✅ Basic error handling exists (HTTPException usage)
-⚠️ Request validation is basic (only Pydantic models)
-However, I can enhance this implementation to make it more robust and production-ready. Let me create a comprehensive TODO list and implement the improvements:
+I'll implement the IBM Granite Guardian Integration as specified in Task 2 of Priority 2. Let me create a todo list and proceed with the implementation.
 
 
-Analyze current CORS and error handling implementation
-Enhance CORS configuration with environment-based origins
-Add comprehensive error handling middleware
-Implement detailed request validation with better error messages
-Add rate limiting considerations (documentation)
-Create comprehensive error response models
-Test all error scenarios
-Document the implementation
+Implement IBM Granite Guardian integration in granite_service.py
+Update main.py to use GraniteService
+Implement response_formatter.py for transforming Granite output
+Add environment variable loading and validation
+Test the /api/scan endpoint
+
+main.py - FastAPI app
+granite_service.py - IBM model integration
+Configure IBM watsonx.ai credentials
+Implement single endpoint: POST /api/scan
+Input: User prompt/model description
+Process with Granite Guardian for bias & safety
 
 
-Now let me enhance the CORS configuration and error handling. I'll start by improving the main.py file with better CORS configuration and comprehensive error handling:
+I understand. Let me implement the IBM Granite Guardian integration focusing on the specific requirements: configuring credentials, implementing the /api/scan endpoint, and processing with Granite Guardian for bias & safety. I'll proceed step by step.
 
 
 Checkpoint
@@ -56,7 +34,26 @@ Checkpoint
 I want to edit this file:
 
 
-Good! The imports are updated. Now let me continue with multiple improvements in a single diff. Let me add enhanced CORS configuration, error handlers, and improved request validation:
+Good! The import errors are expected since the IBM watsonx SDK isn't installed yet. Now let me update main.py to integrate the GraniteService and configure IBM watsonx.ai credentials:
 
 
 Checkpoint
+
+
+
+
+I want to edit this file:
+
+
+Good progress! Let me fix the type error in main.py and then update the response_formatter.py:
+
+
+Checkpoint
+
+
+
+
+I want to edit this file:
+
+
+Now let me update the response_formatter.py to transform Granite Guardian output to dashboard-friendly JSON:
