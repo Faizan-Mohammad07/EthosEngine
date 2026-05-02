@@ -1,15 +1,18 @@
 import { useState } from 'react';
-import { 
+import {
   Button,
   TextInput,
   TextArea,
   Modal,
   InlineLoading,
+  InlineNotification,
 } from '@carbon/react';
 import {
   Search,
   CheckmarkFilled,
+  WarningAlt,
 } from '@carbon/icons-react';
+import apiService from '../services/api';
 import './ScanButton.css';
 
 /**
@@ -29,8 +32,10 @@ function ScanButton({ onScanComplete, onScanStart }) {
     modelDescription: '',
   });
   const [scanProgress, setScanProgress] = useState('');
+  const [error, setError] = useState(null);
+  const [useMockData, setUseMockData] = useState(false);
 
-  // Simulate API call with progressive loading states
+  // Handle scan with real API integration
   const handleScan = async () => {
     if (!scanInput.modelName.trim()) {
       return;
@@ -38,13 +43,81 @@ function ScanButton({ onScanComplete, onScanStart }) {
 
     setShowModal(false);
     setIsScanning(true);
+    setError(null);
     
     // Notify parent component that scan has started
     if (onScanStart) {
       onScanStart();
     }
 
-    // Simulate progressive scanning with realistic delays
+    try {
+      // Check if we should use mock data (fallback mode)
+      const shouldUseMock = import.meta.env.VITE_USE_MOCK_DATA === 'true' || useMockData;
+
+      if (shouldUseMock) {
+        // Use mock data flow
+        await handleMockScan();
+      } else {
+        // Use real API
+        await handleRealScan();
+      }
+    } catch (err) {
+      console.error('Scan error:', err);
+      setError(err);
+      
+      // Offer to retry with mock data
+      setUseMockData(true);
+      
+      if (onScanComplete) {
+        onScanComplete(null); // Signal error to parent
+      }
+    } finally {
+      setIsScanning(false);
+      setScanProgress('');
+    }
+  };
+
+  // Real API scan
+  const handleRealScan = async () => {
+    // Build content string from input
+    const content = `Model: ${scanInput.modelName}\n${scanInput.modelDescription || 'No description provided'}`;
+
+    // Progressive status updates
+    setScanProgress('Connecting to IBM Granite Guardian...');
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    setScanProgress('Analyzing content for bias and safety...');
+    
+    // Call real API
+    const result = await apiService.scanContent({
+      content,
+      scanType: 'comprehensive',
+    });
+
+    if (!result.success) {
+      throw result.error;
+    }
+
+    setScanProgress('Processing results...');
+    await new Promise(resolve => setTimeout(resolve, 300));
+
+    // Transform API response to match expected format
+    const transformedResults = transformApiResponse(result.data, scanInput.modelName);
+
+    // Notify parent component with results
+    if (onScanComplete) {
+      onScanComplete(transformedResults);
+    }
+
+    setScanProgress('Scan complete!');
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // Reset form
+    setScanInput({ modelName: '', modelDescription: '' });
+  };
+
+  // Mock scan (fallback)
+  const handleMockScan = async () => {
     const scanSteps = [
       { message: 'Initializing AI model analysis...', delay: 800 },
       { message: 'Scanning for demographic bias...', delay: 1200 },
@@ -60,21 +133,30 @@ function ScanButton({ onScanComplete, onScanStart }) {
       await new Promise(resolve => setTimeout(resolve, step.delay));
     }
 
-    // Generate mock audit results based on input
     const mockResults = generateMockResults(scanInput);
 
-    // Notify parent component with results
     if (onScanComplete) {
       onScanComplete(mockResults);
     }
 
     setScanProgress('Scan complete!');
     await new Promise(resolve => setTimeout(resolve, 500));
-    setIsScanning(false);
-    setScanProgress('');
     
-    // Reset form
     setScanInput({ modelName: '', modelDescription: '' });
+  };
+
+  // Transform API response to component format
+  const transformApiResponse = (apiData, modelName) => {
+    return {
+      score: apiData.trustScore,
+      modelName: modelName,
+      timestamp: apiData.timestamp,
+      riskLevel: apiData.riskLevel,
+      biasAnalysis: apiData.biasAnalysis,
+      safetyAnalysis: apiData.safetyAnalysis,
+      dataIngredients: apiData.dataIngredients,
+      riskFactors: apiData.riskFactors,
+    };
   };
 
   // Generate realistic mock results based on input
@@ -100,12 +182,57 @@ function ScanButton({ onScanComplete, onScanStart }) {
 
   const handleCloseModal = () => {
     setShowModal(false);
+    setError(null);
+  };
+
+  const handleRetry = () => {
+    setError(null);
+    setUseMockData(false);
+  };
+
+  const handleUseMockData = () => {
+    setError(null);
+    setUseMockData(true);
+    handleScan();
   };
 
   const isFormValid = scanInput.modelName.trim().length > 0;
 
   return (
     <div className="scan-button-container">
+      {/* Error Notification */}
+      {error && !isScanning && (
+        <InlineNotification
+          kind="error"
+          title="Scan Failed"
+          subtitle={error.message || 'Unable to connect to backend. Check if the API is running.'}
+          onCloseButtonClick={() => setError(null)}
+          actions={
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <Button size="sm" kind="tertiary" onClick={handleRetry}>
+                Retry
+              </Button>
+              <Button size="sm" kind="secondary" onClick={handleUseMockData}>
+                Use Demo Mode
+              </Button>
+            </div>
+          }
+          className="scan-error-notification"
+        />
+      )}
+
+      {/* Mock Data Mode Indicator */}
+      {useMockData && !error && (
+        <InlineNotification
+          kind="info"
+          title="Demo Mode Active"
+          subtitle="Using simulated data. Connect to backend for real IBM Granite analysis."
+          hideCloseButton
+          lowContrast
+          className="scan-info-notification"
+        />
+      )}
+
       {/* Main Scan Button */}
       <div className="scan-button-wrapper">
         {isScanning ? (
