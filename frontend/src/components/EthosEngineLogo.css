@@ -1,0 +1,132 @@
+/*
+ * EthosEngine Logo Styles
+ * Professional branding with micro-interactions
+ * Following IBM Carbon Design System principles
+ */
+
+/* Logo Icon Styles */
+.ethos-logo-icon {
+  display: inline-block;
+  vertical-align: middle;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Animated elements within logo */
+.logo-shield {
+  transition: stroke 0.3s ease, stroke-width 0.3s ease;
+}
+
+.logo-check {
+  transition: stroke 0.3s ease, stroke-dashoffset 0.6s ease;
+  stroke-dasharray: 20;
+  stroke-dashoffset: 0;
+}
+
+.logo-accent {
+  transition: opacity 0.3s ease, r 0.3s ease;
+}
+
+/* Hover effects for icon */
+.ethos-logo-icon:hover .logo-shield {
+  stroke: #0353e9;
+  stroke-width: 2.5;
+}
+
+.ethos-logo-icon:hover .logo-check {
+  stroke: #24a148;
+}
+
+.ethos-logo-icon:hover .logo-accent {
+  opacity: 0.5;
+}
+
+/* Full logo with text */
+.ethos-logo-full {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.ethos-logo-full:hover {
+  transform: translateY(-1px);
+}
+
+.ethos-logo-text {
+  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 600;
+  color: #f4f4f4;
+  letter-spacing: -0.01em;
+  transition: color 0.3s ease;
+  white-space: nowrap;
+}
+
+.ethos-logo-full:hover .ethos-logo-text {
+  color: #ffffff;
+}
+
+/* Pulse animation for special states */
+@keyframes logo-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+.ethos-logo-icon.pulse {
+  animation: logo-pulse 2s ease-in-out infinite;
+}
+
+/* Check animation for success states */
+@keyframes check-draw {
+  from {
+    stroke-dashoffset: 20;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.ethos-logo-icon.animate-check .logo-check {
+  animation: check-draw 0.6s ease forwards;
+}
+
+/* Responsive sizing */
+@media (max-width: 672px) {
+  .ethos-logo-full {
+    gap: 8px;
+  }
+}
+
+/* Accessibility - Focus states */
+.ethos-logo-full:focus-visible,
+.ethos-logo-icon:focus-visible {
+  outline: 2px solid #0f62fe;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* Dark mode optimization (already optimized for dark) */
+@media (prefers-color-scheme: light) {
+  .ethos-logo-text {
+    color: #161616;
+  }
+  
+  .ethos-logo-full:hover .ethos-logo-text {
+    color: #000000;
+  }
+}
+
+/* Print styles */
+@media print {
+  .ethos-logo-icon {
+    filter: grayscale(1);
+  }
+}
+
+/* Made with Bob */

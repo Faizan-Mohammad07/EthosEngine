@@ -1,0 +1,87 @@
+/**
+ * BiasBreakdownChart Styles
+ * Styling for the bias detection breakdown bar chart
+ */
+
+.bias-chart-container {
+  background: var(--cds-layer-01);
+  padding: 1.5rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.bias-chart-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--cds-text-secondary);
+}
+
+.bias-chart-empty h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--cds-text-primary);
+}
+
+.bias-chart-empty p {
+  font-size: 0.875rem;
+  color: var(--cds-text-secondary);
+}
+
+/* Custom legend styling */
+.bias-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--cds-border-subtle);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--cds-text-secondary);
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+}
+
+.legend-color.critical {
+  background-color: #da1e28;
+}
+
+.legend-color.high {
+  background-color: #ff832b;
+}
+
+.legend-color.medium {
+  background-color: #f1c21b;
+}
+
+.legend-color.low {
+  background-color: #24a148;
+}
+
+.legend-label {
+  white-space: nowrap;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .bias-chart-container {
+    padding: 1rem;
+  }
+
+  .bias-chart-legend {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* Made with Bob */

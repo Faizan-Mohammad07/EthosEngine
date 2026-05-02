@@ -18,3 +18,9 @@ In this session we had tested the ask and plan agent of bob and generated a vast
 
 ## task_s01.md
 ### worked on FastAPI setup and backend logic using code agent of bob.
+
+## task_f06.md
+### completed Data Visualization uuing code agent of bob. Implemented BiasBreakdownChart (Bar Chart), AuditHistoryTimeline (Line Chart), and RiskFactorBreakdown (Donut Chart).
+
+## task_f07.md
+### worked on Branding & Visual Polish, made logo for the project title, results are pretty good.
