@@ -10,76 +10,97 @@
 /* Dashboard Container */
 .dashboard-container {
   min-height: 100vh;
-  background-color: #161616; /* Dark background per guidelines */
+  background-color: #161616;
+  /* Dark background per guidelines */
   color: #f4f4f4;
   font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 /* Dashboard Content */
 .dashboard-content {
-  padding-top: 48px; /* 3rem = 48px, aligns with 8px grid */
+  padding-top: 48px;
+  /* 3rem = 48px, aligns with 8px grid */
   background-color: #161616;
 }
 
 .dashboard-grid {
-  padding: 0 24px; /* 24px page padding per guidelines */
+  padding: 0 24px;
+  /* 24px page padding per guidelines */
   max-width: 1584px;
   margin: 0 auto;
 }
 
 /* Hero Section */
 .dashboard-hero {
-  margin-bottom: 32px; /* 32px section gap per guidelines */
+  margin-bottom: 32px;
+  /* 32px section gap per guidelines */
 }
 
 .hero-content {
-  padding: 24px; /* 24px comfortable card padding per guidelines */
+  padding: 24px;
+  /* 24px comfortable card padding per guidelines */
   background: linear-gradient(135deg, #0f62fe 0%, #0043ce 100%);
-  border-radius: 2px; /* 2px subtle modern touch per guidelines */
+  border-radius: 2px;
+  /* 2px subtle modern touch per guidelines */
   /* No shadow - flat design per guidelines */
 }
 
 /* Typography - Following exact guidelines */
 .hero-title {
-  font-size: 32px; /* H1: 32px per guidelines */
-  font-weight: 600; /* Semi-Bold per guidelines */
-  line-height: 40px; /* 40px line height per guidelines */
-  margin: 0 0 8px 0; /* 8px base grid */
+  font-size: 32px;
+  /* H1: 32px per guidelines */
+  font-weight: 600;
+  /* Semi-Bold per guidelines */
+  line-height: 40px;
+  /* 40px line height per guidelines */
+  margin: 0 0 8px 0;
+  /* 8px base grid */
   color: #ffffff;
   letter-spacing: 0;
 }
 
 .hero-subtitle {
-  font-size: 14px; /* Body: 14px per guidelines */
-  line-height: 20px; /* 20px line height per guidelines */
-  font-weight: 400; /* Regular per guidelines */
-  margin: 0 0 32px 0; /* 32px gap before stats */
+  font-size: 14px;
+  /* Body: 14px per guidelines */
+  line-height: 20px;
+  /* 20px line height per guidelines */
+  font-weight: 400;
+  /* Regular per guidelines */
+  margin: 0 0 32px 0;
+  /* 32px gap before stats */
   color: #d0e2ff;
 }
 
 .hero-stats {
   display: flex;
-  gap: 32px; /* 32px between sections per guidelines */
+  gap: 32px;
+  /* 32px between sections per guidelines */
   flex-wrap: wrap;
 }
 
 .stat-item {
   display: flex;
   flex-direction: column;
-  gap: 8px; /* 8px base grid */
+  gap: 8px;
+  /* 8px base grid */
 }
 
 .stat-value {
-  font-size: 32px; /* H1 size for emphasis */
-  font-weight: 600; /* Semi-Bold */
+  font-size: 32px;
+  /* H1 size for emphasis */
+  font-weight: 600;
+  /* Semi-Bold */
   line-height: 40px;
   color: #ffffff;
 }
 
 .stat-label {
-  font-size: 12px; /* Label: 12px per guidelines */
-  line-height: 16px; /* 16px line height per guidelines */
-  font-weight: 500; /* Medium per guidelines */
+  font-size: 12px;
+  /* Label: 12px per guidelines */
+  line-height: 16px;
+  /* 16px line height per guidelines */
+  font-weight: 500;
+  /* Medium per guidelines */
   color: #d0e2ff;
   text-transform: uppercase;
   letter-spacing: 0.02em;
@@ -90,15 +111,19 @@
 .dashboard-side-section,
 .dashboard-action-section,
 .dashboard-info-section {
-  margin-bottom: 16px; /* 16px between widgets per guidelines */
+  margin-bottom: 16px;
+  /* 16px between widgets per guidelines */
 }
 
 /* Component Placeholders - Flat design with borders */
 .component-placeholder {
   background-color: #262626;
-  border: 1px solid #393939; /* Border per guidelines */
-  border-radius: 0px; /* Strict professional look per guidelines */
-  padding: 24px; /* 24px comfortable padding per guidelines */
+  border: 1px solid #393939;
+  /* Border per guidelines */
+  border-radius: 0px;
+  /* Strict professional look per guidelines */
+  padding: 24px;
+  /* 24px comfortable padding per guidelines */
   min-height: 300px;
   display: flex;
   flex-direction: column;
@@ -115,40 +140,55 @@
 }
 
 .component-placeholder h3 {
-  font-size: 20px; /* H3: 20px per guidelines */
-  font-weight: 600; /* Semi-Bold per guidelines */
-  line-height: 28px; /* 28px line height per guidelines */
-  margin: 0 0 8px 0; /* 8px base grid */
+  font-size: 20px;
+  /* H3: 20px per guidelines */
+  font-weight: 600;
+  /* Semi-Bold per guidelines */
+  line-height: 28px;
+  /* 28px line height per guidelines */
+  margin: 0 0 8px 0;
+  /* 8px base grid */
   color: #f4f4f4;
 }
 
 .component-placeholder p {
-  font-size: 14px; /* Body: 14px per guidelines */
-  line-height: 20px; /* 20px line height per guidelines */
-  font-weight: 400; /* Regular per guidelines */
+  font-size: 14px;
+  /* Body: 14px per guidelines */
+  line-height: 20px;
+  /* 20px line height per guidelines */
+  font-weight: 400;
+  /* Regular per guidelines */
   color: #8d8d8d;
   margin: 0;
 }
 
 .action-placeholder {
   min-height: 150px;
-  background-color: #262626; /* Flat color, no gradient per guidelines */
+  background-color: #262626;
+  /* Flat color, no gradient per guidelines */
 }
 
 /* Info Card - Following widget styling */
 .info-card {
   background-color: #262626;
-  border: 1px solid #393939; /* Border per guidelines */
-  border-radius: 0px; /* Strict professional look per guidelines */
-  padding: 24px; /* 24px comfortable padding per guidelines */
+  border: 1px solid #393939;
+  /* Border per guidelines */
+  border-radius: 0px;
+  /* Strict professional look per guidelines */
+  padding: 24px;
+  /* 24px comfortable padding per guidelines */
   /* No shadow - flat design per guidelines */
 }
 
 .info-card h4 {
-  font-size: 20px; /* H3: 20px per guidelines */
-  font-weight: 600; /* Semi-Bold per guidelines */
-  line-height: 28px; /* 28px line height per guidelines */
-  margin: 0 0 16px 0; /* 16px gap per guidelines */
+  font-size: 20px;
+  /* H3: 20px per guidelines */
+  font-weight: 600;
+  /* Semi-Bold per guidelines */
+  line-height: 28px;
+  /* 28px line height per guidelines */
+  margin: 0 0 16px 0;
+  /* 16px gap per guidelines */
   color: #f4f4f4;
 }
 
@@ -159,11 +199,15 @@
 }
 
 .info-card li {
-  padding: 8px 0; /* 8px base grid */
+  padding: 8px 0;
+  /* 8px base grid */
   color: #c6c6c6;
-  font-size: 14px; /* Body: 14px per guidelines */
-  line-height: 20px; /* 20px line height per guidelines */
-  font-weight: 400; /* Regular per guidelines */
+  font-size: 14px;
+  /* Body: 14px per guidelines */
+  line-height: 20px;
+  /* 20px line height per guidelines */
+  font-weight: 400;
+  /* Regular per guidelines */
   border-bottom: 1px solid #393939;
 }
 
@@ -174,16 +218,19 @@
 /* Responsive Design - Maintaining 8px grid */
 @media (max-width: 1056px) {
   .dashboard-grid {
-    padding: 0 24px; /* Maintain 24px padding */
+    padding: 0 24px;
+    /* Maintain 24px padding */
   }
 
   .hero-title {
-    font-size: 24px; /* H2 size for medium screens */
+    font-size: 24px;
+    /* H2 size for medium screens */
     line-height: 32px;
   }
 
   .hero-stats {
-    gap: 24px; /* Reduce to 24px */
+    gap: 24px;
+    /* Reduce to 24px */
   }
 
   .stat-value {
@@ -194,29 +241,35 @@
 
 @media (max-width: 672px) {
   .dashboard-content {
-    padding-top: 32px; /* Reduce to 32px */
+    padding-top: 32px;
+    /* Reduce to 32px */
   }
 
   .dashboard-grid {
-    padding: 0 16px; /* Reduce to 16px for mobile */
+    padding: 0 16px;
+    /* Reduce to 16px for mobile */
   }
 
   .hero-content {
-    padding: 16px; /* 16px compact padding for mobile */
+    padding: 16px;
+    /* 16px compact padding for mobile */
   }
 
   .hero-title {
-    font-size: 20px; /* H3 size for small screens */
+    font-size: 20px;
+    /* H3 size for small screens */
     line-height: 28px;
   }
 
   .hero-subtitle {
-    font-size: 14px; /* Maintain body size */
+    font-size: 14px;
+    /* Maintain body size */
     line-height: 20px;
   }
 
   .hero-stats {
-    gap: 16px; /* 16px gap for mobile */
+    gap: 16px;
+    /* 16px gap for mobile */
   }
 
   .stat-value {
@@ -225,28 +278,35 @@
   }
 
   .component-placeholder {
-    padding: 16px; /* 16px compact padding for mobile */
+    padding: 16px;
+    /* 16px compact padding for mobile */
     min-height: 200px;
   }
 
   .info-card {
-    padding: 16px; /* 16px compact padding for mobile */
+    padding: 16px;
+    /* 16px compact padding for mobile */
   }
 }
 
 /* Carbon Header Customization */
 .cds--header {
-  background-color: #161616; /* Dark background per guidelines */
-  border-bottom: 1px solid #393939; /* Border per guidelines */
+  background-color: #161616;
+  /* Dark background per guidelines */
+  border-bottom: 1px solid #393939;
+  /* Border per guidelines */
 }
 
 .cds--header__name {
-  font-weight: 600; /* Semi-Bold per guidelines */
-  font-size: 14px; /* Body size per guidelines */
+  font-weight: 600;
+  /* Semi-Bold per guidelines */
+  font-size: 14px;
+  /* Body size per guidelines */
 }
 
 .cds--header__name--prefix {
-  color: #0f62fe; /* Primary Blue per guidelines */
+  color: #0f62fe;
+  /* Primary Blue per guidelines */
 }
 
 /* Carbon Side Nav Customization */
@@ -260,9 +320,12 @@
 }
 
 .cds--side-nav__link {
-  font-size: 14px; /* Body: 14px per guidelines */
-  line-height: 20px; /* 20px line height per guidelines */
-  font-weight: 400; /* Regular per guidelines */
+  font-size: 14px;
+  /* Body: 14px per guidelines */
+  line-height: 20px;
+  /* 20px line height per guidelines */
+  font-weight: 400;
+  /* Regular per guidelines */
 }
 
 /* Smooth Transitions - Minimal for professional feel */
@@ -276,7 +339,8 @@
 .component-placeholder:focus-within,
 .cds--btn:focus,
 .cds--side-nav__link:focus {
-  outline: 2px solid #0f62fe; /* Primary Blue per guidelines */
+  outline: 2px solid #0f62fe;
+  /* Primary Blue per guidelines */
   outline-offset: 2px;
 }
 
@@ -285,14 +349,16 @@
 .stat-value,
 .component-placeholder h3,
 .info-card h4 {
-  color: #ffffff; /* High contrast white text */
+  color: #ffffff;
+  /* High contrast white text */
 }
 
 .hero-subtitle,
 .stat-label,
 .component-placeholder p,
 .info-card li {
-  color: #c6c6c6; /* Sufficient contrast for body text */
+  color: #c6c6c6;
+  /* Sufficient contrast for body text */
 }
 
 /* Made with Bob */

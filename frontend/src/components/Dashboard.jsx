@@ -29,7 +29,7 @@ import './Dashboard.css';
 
 function Dashboard() {
   const [isSideNavExpanded, setIsSideNavExpanded] = useState(false);
-  
+
   // State for Trust Score Gauge - now dynamic based on scan results
   const [trustScoreData, setTrustScoreData] = useState({
     score: null, // Start with empty state
