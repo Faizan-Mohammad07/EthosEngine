@@ -27,13 +27,10 @@ import EthosEngineLogo from './EthosEngineLogo';
 import NutritionLabel from './NutritionLabel';
 import TrustScoreGauge from './TrustScoreGauge';
 import ScanButton from './ScanButton';
-<<<<<<< HEAD
 import { fadeInUp, staggerContainer, scaleIn } from '../utils/animations';
-=======
 import BiasBreakdownChart from './charts/BiasBreakdownChart';
 import AuditHistoryTimeline from './charts/AuditHistoryTimeline';
 import RiskFactorBreakdown from './charts/RiskFactorBreakdown';
->>>>>>> da688dda0c84d4f37b81f185c2b3159b02d809b3
 import './Dashboard.css';
 
 function Dashboard() {
@@ -195,17 +192,21 @@ function Dashboard() {
           <Grid className="dashboard-grid" fullWidth>
             {/* Hero Section */}
             <Column lg={16} md={8} sm={4} className="dashboard-hero">
-<<<<<<< HEAD
               <motion.div
                 className="hero-content"
                 initial="initial"
                 animate="animate"
                 variants={fadeInUp}
               >
-                <h1 className="hero-title">AI Integrity Sentinel</h1>
-                <p className="hero-subtitle">
-                  Real-time AI auditing powered by IBM Granite Guardian
-                </p>
+                <div className="hero-branding">
+                  <EthosEngineLogo size="large" variant="icon" className="hero-logo" />
+                  <div className="hero-text-content">
+                    <h1 className="hero-title">AI Integrity Sentinel</h1>
+                    <p className="hero-subtitle">
+                      Real-time AI auditing powered by IBM Granite Guardian
+                    </p>
+                  </div>
+                </div>
                 <motion.div
                   className="hero-stats"
                   variants={staggerContainer}
@@ -222,21 +223,6 @@ function Dashboard() {
                     >
                       {auditStats.totalAudits}
                     </motion.span>
-=======
-              <div className="hero-content">
-                <div className="hero-branding">
-                  <EthosEngineLogo size="large" variant="icon" className="hero-logo" />
-                  <div className="hero-text-content">
-                    <h1 className="hero-title">AI Integrity Sentinel</h1>
-                    <p className="hero-subtitle">
-                      Real-time AI auditing powered by IBM Granite Guardian
-                    </p>
-                  </div>
-                </div>
-                <div className="hero-stats">
-                  <div className="stat-item">
-                    <span className="stat-value">{auditStats.totalAudits}</span>
->>>>>>> da688dda0c84d4f37b81f185c2b3159b02d809b3
                     <span className="stat-label">Audits Completed</span>
                   </motion.div>
                   <motion.div className="stat-item" variants={fadeInUp}>
@@ -327,42 +313,7 @@ function Dashboard() {
               <AuditHistoryTimeline auditHistory={chartData.auditHistory} />
             </Column>
 
-            {/* Additional Info Section */}
-            <Column lg={16} md={8} sm={4} className="dashboard-info-section">
-<<<<<<< HEAD
-              <motion.div
-                className="info-card"
-                variants={fadeInUp}
-                initial="initial"
-                animate="animate"
-              >
-                <h4>Development Progress - Priority #3 Task 2 Complete! 🎉</h4>
-=======
-              <div className="info-card">
-                <h4>Development Progress - Priority #4, Task 3 Complete! 🎨</h4>
->>>>>>> da688dda0c84d4f37b81f185c2b3159b02d809b3
-                <ul>
-                  <li>✅ Dashboard layout created with IBM Carbon Design System</li>
-                  <li>✅ Responsive grid system implemented</li>
-                  <li>✅ Header and navigation configured</li>
-                  <li>✅ AI Nutrition Label component integrated</li>
-                  <li>✅ Trust Score Gauge component with smooth animations</li>
-                  <li>✅ Scan Button with loading states and modal input</li>
-                  <li>✅ Full integration: Scan → Loading → Results → Stats update</li>
-<<<<<<< HEAD
-                  <li>✅ Enhanced animations with Framer Motion</li>
-                  <li>✅ Smooth state transitions throughout dashboard</li>
-=======
-                  <li>✅ Bias Breakdown Chart with color-coded severity</li>
-                  <li>✅ Risk Factor Distribution Donut Chart</li>
-                  <li>✅ Audit History Timeline with trend visualization</li>
-                  <li>✅ <strong>NEW:</strong> EthosEngine logo with shield & checkmark design</li>
-                  <li>✅ <strong>NEW:</strong> Professional branding in header and hero section</li>
-                  <li>✅ <strong>NEW:</strong> Micro-interactions and hover states throughout</li>
->>>>>>> da688dda0c84d4f37b81f185c2b3159b02d809b3
-                </ul>
-              </motion.div>
-            </Column>
+
           </Grid>
         </Content>
       </div>
