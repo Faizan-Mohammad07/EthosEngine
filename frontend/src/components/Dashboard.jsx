@@ -37,6 +37,9 @@ function Dashboard() {
     riskLevel: null,
   });
 
+  // State for detailed scan results
+  const [scanResults, setScanResults] = useState(null);
+
   // State for tracking total audits
   const [auditStats, setAuditStats] = useState({
     totalAudits: 0,
@@ -55,11 +58,26 @@ function Dashboard() {
 
   // Handle scan completion - update with results
   const handleScanComplete = (results) => {
+    // Handle error case (null results)
+    if (!results) {
+      setTrustScoreData({
+        score: null,
+        loading: false,
+        riskLevel: null,
+      });
+      setScanResults(null);
+      return;
+    }
+
+    // Update trust score display
     setTrustScoreData({
       score: results.score,
       loading: false,
       riskLevel: results.riskLevel,
     });
+
+    // Store full scan results for detailed display
+    setScanResults(results);
 
     // Update audit statistics
     setAuditStats(prev => {
@@ -169,7 +187,7 @@ function Dashboard() {
             </Column>
 
             <Column lg={6} md={6} sm={4} className="dashboard-side-section">
-              <NutritionLabel />
+              <NutritionLabel scanResults={scanResults} />
             </Column>
 
             {/* Scan Action Area */}

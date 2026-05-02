@@ -19,7 +19,7 @@ import './NutritionLabel.css';
  * Displays model attributes in a nutrition-label style format
  * Following UI Design Guidelines: Table-like structure with clear borders
  */
-function NutritionLabel({ data }) {
+function NutritionLabel({ scanResults }) {
   // Mock data structure as specified in the plan
   const mockData = {
     dataIngredients: [
@@ -39,7 +39,58 @@ function NutritionLabel({ data }) {
     trainingDate: "2026-04-15"
   };
 
-  const labelData = data || mockData;
+  // Transform API scan results to label format
+  const transformScanResults = (results) => {
+    if (!results) return null;
+
+    const riskFactors = [];
+    
+    // Add bias analysis if available
+    if (results.biasAnalysis) {
+      const biasScore = results.biasAnalysis.score || 0;
+      riskFactors.push({
+        type: "Bias Score",
+        value: `${biasScore}/100`,
+        level: biasScore < 30 ? 'green' : biasScore < 60 ? 'yellow' : 'red'
+      });
+
+      if (results.biasAnalysis.types && results.biasAnalysis.types.length > 0) {
+        riskFactors.push({
+          type: "Bias Types Detected",
+          value: results.biasAnalysis.types.join(', '),
+          level: 'yellow'
+        });
+      }
+    }
+
+    // Add safety analysis if available
+    if (results.safetyAnalysis) {
+      const safetyScore = results.safetyAnalysis.score || 0;
+      riskFactors.push({
+        type: "Safety Risk Score",
+        value: `${safetyScore}/100`,
+        level: safetyScore < 30 ? 'green' : safetyScore < 60 ? 'yellow' : 'red'
+      });
+
+      if (results.safetyAnalysis.categoriesDetected && results.safetyAnalysis.categoriesDetected.length > 0) {
+        riskFactors.push({
+          type: "Safety Categories",
+          value: results.safetyAnalysis.categoriesDetected.join(', '),
+          level: 'red'
+        });
+      }
+    }
+
+    return {
+      dataIngredients: results.dataIngredients || [],
+      riskFactors: riskFactors.length > 0 ? riskFactors : results.riskFactors || [],
+      lastAudit: results.timestamp ? new Date(results.timestamp).toLocaleDateString() : new Date().toLocaleDateString(),
+      modelVersion: results.modelName || "Unknown",
+      trainingDate: results.timestamp ? new Date(results.timestamp).toLocaleDateString() : "N/A"
+    };
+  };
+
+  const labelData = scanResults ? transformScanResults(scanResults) : mockData;
 
   // Get risk level color based on guidelines
   const getRiskColor = (level) => {
