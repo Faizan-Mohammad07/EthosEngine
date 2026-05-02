@@ -113,6 +113,16 @@
 .dashboard-info-section {
   margin-bottom: 16px;
   /* 16px between widgets per guidelines */
+/* Chart Sections - Following 8px base grid */
+.dashboard-chart-section {
+  margin-bottom: 16px;
+  /* 16px between widgets per guidelines */
+}
+
+.dashboard-chart-section > div {
+  height: 100%;
+}
+
 }
 
 /* Component Placeholders - Flat design with borders */

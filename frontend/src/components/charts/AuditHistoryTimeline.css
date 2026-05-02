@@ -1,0 +1,150 @@
+/**
+ * AuditHistoryTimeline Styles
+ * Styling for the trust score history timeline chart
+ */
+
+.timeline-chart-container {
+  background: var(--cds-layer-01);
+  padding: 1.5rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.timeline-chart-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--cds-text-secondary);
+}
+
+.timeline-chart-empty h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--cds-text-primary);
+}
+
+.timeline-chart-empty p {
+  font-size: 0.875rem;
+  color: var(--cds-text-secondary);
+}
+
+/* Zone indicators and stats */
+.timeline-chart-zones {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--cds-border-subtle);
+  gap: 2rem;
+}
+
+.zone-indicator {
+  flex: 0 0 auto;
+}
+
+.zone-bar {
+  display: flex;
+  flex-direction: column-reverse;
+  width: 120px;
+  height: 60px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--cds-border-subtle);
+}
+
+.zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.zone.critical {
+  background-color: rgba(218, 30, 40, 0.2);
+  border-top: 2px solid #da1e28;
+}
+
+.zone.warning {
+  background-color: rgba(241, 194, 27, 0.2);
+  border-top: 2px solid #f1c21b;
+}
+
+.zone.safe {
+  background-color: rgba(36, 161, 72, 0.2);
+  border-top: 2px solid #24a148;
+}
+
+.zone-label {
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--cds-text-primary);
+  writing-mode: horizontal-tb;
+  white-space: nowrap;
+}
+
+/* Timeline statistics */
+.timeline-stats {
+  display: flex;
+  gap: 2rem;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--cds-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--cds-text-primary);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .timeline-chart-container {
+    padding: 1rem;
+  }
+
+  .timeline-chart-zones {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .zone-bar {
+    width: 100%;
+    height: 40px;
+    flex-direction: row;
+  }
+
+  .zone {
+    flex: 1;
+  }
+
+  .zone-label {
+    font-size: 0.5rem;
+  }
+
+  .timeline-stats {
+    width: 100%;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .stat-value {
+    font-size: 1.25rem;
+  }
+}
+
+/* Made with Bob */
