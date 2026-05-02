@@ -22,6 +22,7 @@ import {
   Notification,
   UserAvatar,
 } from '@carbon/icons-react';
+import EthosEngineLogo from './EthosEngineLogo';
 import NutritionLabel from './NutritionLabel';
 import TrustScoreGauge from './TrustScoreGauge';
 import ScanButton from './ScanButton';
@@ -131,10 +132,13 @@ function Dashboard() {
   return (
     <Theme theme="g100">
       <div className="dashboard-container">
-        {/* IBM Carbon Header */}
+        {/* IBM Carbon Header with Logo */}
         <Header aria-label="EthosEngine">
-          <HeaderName href="#" prefix="IBM">
-            EthosEngine
+          <HeaderName href="#" prefix="">
+            <EthosEngineLogo size="small" variant="icon" />
+            <span className="header-brand-text">
+              <span className="header-ibm-prefix">IBM</span> EthosEngine
+            </span>
           </HeaderName>
           <HeaderNavigation aria-label="EthosEngine">
             <HeaderMenuItem href="#dashboard">Dashboard</HeaderMenuItem>
@@ -187,10 +191,15 @@ function Dashboard() {
             {/* Hero Section */}
             <Column lg={16} md={8} sm={4} className="dashboard-hero">
               <div className="hero-content">
-                <h1 className="hero-title">AI Integrity Sentinel</h1>
-                <p className="hero-subtitle">
-                  Real-time AI auditing powered by IBM Granite Guardian
-                </p>
+                <div className="hero-branding">
+                  <EthosEngineLogo size="large" variant="icon" className="hero-logo" />
+                  <div className="hero-text-content">
+                    <h1 className="hero-title">AI Integrity Sentinel</h1>
+                    <p className="hero-subtitle">
+                      Real-time AI auditing powered by IBM Granite Guardian
+                    </p>
+                  </div>
+                </div>
                 <div className="hero-stats">
                   <div className="stat-item">
                     <span className="stat-value">{auditStats.totalAudits}</span>
@@ -247,7 +256,7 @@ function Dashboard() {
             {/* Additional Info Section */}
             <Column lg={16} md={8} sm={4} className="dashboard-info-section">
               <div className="info-card">
-                <h4>Development Progress - Priority #3, Task 3 Complete! 🎉</h4>
+                <h4>Development Progress - Priority #4, Task 3 Complete! 🎨</h4>
                 <ul>
                   <li>✅ Dashboard layout created with IBM Carbon Design System</li>
                   <li>✅ Responsive grid system implemented</li>
@@ -256,9 +265,12 @@ function Dashboard() {
                   <li>✅ Trust Score Gauge component with smooth animations</li>
                   <li>✅ Scan Button with loading states and modal input</li>
                   <li>✅ Full integration: Scan → Loading → Results → Stats update</li>
-                  <li>✅ <strong>NEW:</strong> Bias Breakdown Chart with color-coded severity</li>
-                  <li>✅ <strong>NEW:</strong> Risk Factor Distribution Donut Chart</li>
-                  <li>✅ <strong>NEW:</strong> Audit History Timeline with trend visualization</li>
+                  <li>✅ Bias Breakdown Chart with color-coded severity</li>
+                  <li>✅ Risk Factor Distribution Donut Chart</li>
+                  <li>✅ Audit History Timeline with trend visualization</li>
+                  <li>✅ <strong>NEW:</strong> EthosEngine logo with shield & checkmark design</li>
+                  <li>✅ <strong>NEW:</strong> Professional branding in header and hero section</li>
+                  <li>✅ <strong>NEW:</strong> Micro-interactions and hover states throughout</li>
                 </ul>
               </div>
             </Column>
