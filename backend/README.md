@@ -120,6 +120,23 @@ pip install flake8
 flake8 .
 ```
 
+## CORS & Error Handling
+
+Comprehensive CORS and error handling has been implemented. See [CORS_ERROR_HANDLING.md](./CORS_ERROR_HANDLING.md) for complete documentation.
+
+### Key Features:
+- **Environment-based CORS configuration** via `CORS_ORIGINS` env variable
+- **Three-tier exception handling** (validation, HTTP, general errors)
+- **Advanced request validation** with Pydantic validators
+- **Consistent error response format** across all endpoints
+- **Comprehensive test suite** in `test_error_handling.py`
+
+### CORS Configuration:
+```env
+# Optional - defaults to localhost:5173 and localhost:3000
+CORS_ORIGINS=https://yourdomain.com,https://app.yourdomain.com
+```
+
 ## CORS Configuration
 
 The backend is configured to accept requests from:
