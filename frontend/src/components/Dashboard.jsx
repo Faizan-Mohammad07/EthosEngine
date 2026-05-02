@@ -27,6 +27,8 @@ import EthosEngineLogo from './EthosEngineLogo';
 import NutritionLabel from './NutritionLabel';
 import TrustScoreGauge from './TrustScoreGauge';
 import ScanButton from './ScanButton';
+import EmptyState from './EmptyState';
+import ErrorDisplay from './ErrorDisplay';
 import { fadeInUp, staggerContainer, scaleIn } from '../utils/animations';
 import BiasBreakdownChart from './charts/BiasBreakdownChart';
 import AuditHistoryTimeline from './charts/AuditHistoryTimeline';
@@ -60,8 +62,12 @@ function Dashboard() {
     riskFactors: []
   });
 
+  // State for error handling
+  const [error, setError] = useState(null);
+
   // Handle scan start - show loading state
   const handleScanStart = () => {
+    setError(null); // Clear any previous errors
     setTrustScoreData({
       score: null,
       loading: true,
@@ -129,6 +135,22 @@ function Dashboard() {
         { category: 'Low', count: Math.floor(Math.random() * 2) + 1 }
       ].filter(item => item.count > 0)
     }));
+  };
+
+  // Handle scan error
+  const handleScanError = (errorData) => {
+    setError(errorData);
+    setTrustScoreData({
+      score: null,
+      loading: false,
+      riskLevel: null,
+    });
+  };
+
+  // Retry scan after error
+  const handleRetry = () => {
+    setError(null);
+    // Trigger a new scan - this would need to be implemented in ScanButton
   };
 
   return (
@@ -253,36 +275,81 @@ function Dashboard() {
               </motion.div>
             </Column>
 
+            {/* Error Display Section */}
+            {error && (
+              <Column lg={16} md={8} sm={4} className="dashboard-error-section">
+                <ErrorDisplay
+                  type="error"
+                  title="Scan Failed"
+                  message={error.message || 'An error occurred while scanning. Please try again.'}
+                  onRetry={handleRetry}
+                  showRetry={true}
+                />
+              </Column>
+            )}
+
             {/* Main Dashboard Grid - Trust Score Gauge */}
             <Column lg={10} md={6} sm={4} className="dashboard-main-section">
               <AnimatePresence mode="wait">
-                <motion.div
-                  key={trustScoreData.score || 'empty'}
-                  variants={scaleIn}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                >
-                  <TrustScoreGauge
-                    score={trustScoreData.score}
-                    loading={trustScoreData.loading}
-                    riskLevel={trustScoreData.riskLevel}
-                  />
-                </motion.div>
+                {trustScoreData.score === null && !trustScoreData.loading && !error ? (
+                  <motion.div
+                    key="empty-gauge"
+                    variants={fadeInUp}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                  >
+                    <EmptyState
+                      type="initial"
+                      title="Ready to Scan"
+                      description="Click the scan button below to analyze an AI model and view its trust score."
+                    />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key={trustScoreData.score || 'loading'}
+                    variants={scaleIn}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                  >
+                    <TrustScoreGauge
+                      score={trustScoreData.score}
+                      loading={trustScoreData.loading}
+                      riskLevel={trustScoreData.riskLevel}
+                    />
+                  </motion.div>
+                )}
               </AnimatePresence>
             </Column>
 
             <Column lg={6} md={6} sm={4} className="dashboard-side-section">
               <AnimatePresence mode="wait">
-                <motion.div
-                  key={scanResults ? 'results' : 'empty'}
-                  variants={fadeInUp}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                >
-                  <NutritionLabel scanResults={scanResults} />
-                </motion.div>
+                {!scanResults && !trustScoreData.loading && !error ? (
+                  <motion.div
+                    key="empty-nutrition"
+                    variants={fadeInUp}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                  >
+                    <EmptyState
+                      type="no-data"
+                      title="No Audit Data"
+                      description="Scan results will appear here after completing an audit."
+                    />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key={scanResults ? 'results' : 'empty'}
+                    variants={fadeInUp}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                  >
+                    <NutritionLabel scanResults={scanResults} />
+                  </motion.div>
+                )}
               </AnimatePresence>
             </Column>
 
@@ -296,22 +363,53 @@ function Dashboard() {
                 <ScanButton
                   onScanStart={handleScanStart}
                   onScanComplete={handleScanComplete}
+                  onScanError={handleScanError}
                 />
               </motion.div>
             </Column>
 
             {/* Data Visualization Section - Charts */}
-            <Column lg={8} md={4} sm={4} className="dashboard-chart-section">
-              <BiasBreakdownChart biasData={chartData.biasBreakdown} />
-            </Column>
+            {chartData.biasBreakdown.length > 0 ? (
+              <Column lg={8} md={4} sm={4} className="dashboard-chart-section">
+                <BiasBreakdownChart biasData={chartData.biasBreakdown} />
+              </Column>
+            ) : (
+              <Column lg={8} md={4} sm={4} className="dashboard-chart-section">
+                <EmptyState
+                  type="no-data"
+                  title="No Bias Data"
+                  description="Bias breakdown will appear after completing scans."
+                />
+              </Column>
+            )}
 
-            <Column lg={8} md={4} sm={4} className="dashboard-chart-section">
-              <RiskFactorBreakdown riskFactors={chartData.riskFactors} />
-            </Column>
+            {chartData.riskFactors.length > 0 ? (
+              <Column lg={8} md={4} sm={4} className="dashboard-chart-section">
+                <RiskFactorBreakdown riskFactors={chartData.riskFactors} />
+              </Column>
+            ) : (
+              <Column lg={8} md={4} sm={4} className="dashboard-chart-section">
+                <EmptyState
+                  type="no-data"
+                  title="No Risk Data"
+                  description="Risk factor breakdown will appear after completing scans."
+                />
+              </Column>
+            )}
 
-            <Column lg={16} md={8} sm={4} className="dashboard-chart-section">
-              <AuditHistoryTimeline auditHistory={chartData.auditHistory} />
-            </Column>
+            {chartData.auditHistory.length > 0 ? (
+              <Column lg={16} md={8} sm={4} className="dashboard-chart-section">
+                <AuditHistoryTimeline auditHistory={chartData.auditHistory} />
+              </Column>
+            ) : (
+              <Column lg={16} md={8} sm={4} className="dashboard-chart-section">
+                <EmptyState
+                  type="no-data"
+                  title="No Audit History"
+                  description="Your audit history timeline will appear here as you complete scans."
+                />
+              </Column>
+            )}
 
 
           </Grid>

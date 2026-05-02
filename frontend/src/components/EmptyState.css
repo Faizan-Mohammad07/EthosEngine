@@ -1,0 +1,81 @@
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  min-height: 400px;
+  background: var(--cds-layer-01);
+  border-radius: 4px;
+  border: 1px dashed var(--cds-border-subtle-01);
+}
+
+.empty-state__icon {
+  color: var(--cds-icon-secondary);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.empty-state__icon svg {
+  display: block;
+}
+
+.empty-state__title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--cds-text-primary);
+  margin: 0 0 0.75rem 0;
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out 0.1s forwards;
+}
+
+.empty-state__description {
+  font-size: 0.875rem;
+  color: var(--cds-text-secondary);
+  max-width: 400px;
+  margin: 0 0 2rem 0;
+  line-height: 1.5;
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out 0.2s forwards;
+}
+
+.empty-state__action {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out 0.3s forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 672px) {
+  .empty-state {
+    padding: 3rem 1.5rem;
+    min-height: 300px;
+  }
+
+  .empty-state__icon svg {
+    width: 48px;
+    height: 48px;
+  }
+
+  .empty-state__title {
+    font-size: 1.25rem;
+  }
+
+  .empty-state__description {
+    font-size: 0.8125rem;
+  }
+}
+
+/* Made with Bob */

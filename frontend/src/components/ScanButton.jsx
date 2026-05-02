@@ -26,7 +26,7 @@ import './ScanButton.css';
  * - Professional flat design
  * - Primary Blue (#0f62fe) for actionable elements
  */
-function ScanButton({ onScanComplete, onScanStart }) {
+function ScanButton({ onScanComplete, onScanStart, onScanError }) {
   const [isScanning, setIsScanning] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [scanInput, setScanInput] = useState({
@@ -66,6 +66,11 @@ function ScanButton({ onScanComplete, onScanStart }) {
     } catch (err) {
       console.error('Scan error:', err);
       setError(err);
+      
+      // Notify parent component of error
+      if (onScanError) {
+        onScanError(err);
+      }
       
       // Offer to retry with mock data
       setUseMockData(true);
