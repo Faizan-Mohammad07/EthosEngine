@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import {
   Button,
   TextInput,
@@ -13,6 +14,7 @@ import {
   WarningAlt,
 } from '@carbon/icons-react';
 import apiService from '../services/api';
+import { pulse, fadeIn, scaleIn } from '../utils/animations';
 import './ScanButton.css';
 
 /**
@@ -202,67 +204,149 @@ function ScanButton({ onScanComplete, onScanStart }) {
     <div className="scan-button-container">
       {/* Error Notification */}
       {error && !isScanning && (
-        <InlineNotification
-          kind="error"
-          title="Scan Failed"
-          subtitle={error.message || 'Unable to connect to backend. Check if the API is running.'}
-          onCloseButtonClick={() => setError(null)}
-          actions={
-            <div style={{ display: 'flex', gap: '8px' }}>
-              <Button size="sm" kind="tertiary" onClick={handleRetry}>
-                Retry
-              </Button>
-              <Button size="sm" kind="secondary" onClick={handleUseMockData}>
-                Use Demo Mode
-              </Button>
-            </div>
-          }
-          className="scan-error-notification"
-        />
+        <motion.div
+          variants={fadeIn}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+        >
+          <InlineNotification
+            kind="error"
+            title="Scan Failed"
+            subtitle={error.message || 'Unable to connect to backend. Check if the API is running.'}
+            onCloseButtonClick={() => setError(null)}
+            actions={
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <Button size="sm" kind="tertiary" onClick={handleRetry}>
+                  Retry
+                </Button>
+                <Button size="sm" kind="secondary" onClick={handleUseMockData}>
+                  Use Demo Mode
+                </Button>
+              </div>
+            }
+            className="scan-error-notification"
+          />
+        </motion.div>
       )}
 
       {/* Mock Data Mode Indicator */}
       {useMockData && !error && (
-        <InlineNotification
-          kind="info"
-          title="Demo Mode Active"
-          subtitle="Using simulated data. Connect to backend for real IBM Granite analysis."
-          hideCloseButton
-          lowContrast
-          className="scan-info-notification"
-        />
+        <motion.div
+          variants={fadeIn}
+          initial="initial"
+          animate="animate"
+        >
+          <InlineNotification
+            kind="info"
+            title="Demo Mode Active"
+            subtitle="Using simulated data. Connect to backend for real IBM Granite analysis."
+            hideCloseButton
+            lowContrast
+            className="scan-info-notification"
+          />
+        </motion.div>
       )}
 
       {/* Main Scan Button */}
       <div className="scan-button-wrapper">
         {isScanning ? (
-          <div className="scanning-state">
+          <motion.div
+            className="scanning-state"
+            variants={scaleIn}
+            initial="initial"
+            animate="animate"
+          >
             <InlineLoading
               description={scanProgress}
               status="active"
               className="scan-loading"
             />
             <div className="scanning-animation">
-              <div className="scan-pulse"></div>
-              <div className="scan-pulse delay-1"></div>
-              <div className="scan-pulse delay-2"></div>
+              <motion.div
+                className="scan-pulse"
+                animate={{
+                  scale: [1, 1.5, 1],
+                  opacity: [0.8, 0, 0.8]
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+              <motion.div
+                className="scan-pulse delay-1"
+                animate={{
+                  scale: [1, 1.5, 1],
+                  opacity: [0.8, 0, 0.8]
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 0.3
+                }}
+              />
+              <motion.div
+                className="scan-pulse delay-2"
+                animate={{
+                  scale: [1, 1.5, 1],
+                  opacity: [0.8, 0, 0.8]
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 0.6
+                }}
+              />
             </div>
-          </div>
+          </motion.div>
         ) : (
-          <>
-            <Button
-              kind="primary"
-              size="lg"
-              renderIcon={Search}
-              onClick={handleOpenModal}
-              className="scan-button"
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              animate={{
+                boxShadow: [
+                  '0 0 0 0 rgba(15, 98, 254, 0)',
+                  '0 0 0 8px rgba(15, 98, 254, 0.1)',
+                  '0 0 0 0 rgba(15, 98, 254, 0)'
+                ]
+              }}
+              transition={{
+                boxShadow: {
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }
+              }}
+              style={{ display: 'inline-block', borderRadius: '4px' }}
             >
-              Scan AI Model
-            </Button>
-            <p className="scan-button-hint">
+              <Button
+                kind="primary"
+                size="lg"
+                renderIcon={Search}
+                onClick={handleOpenModal}
+                className="scan-button"
+              >
+                Scan AI Model
+              </Button>
+            </motion.div>
+            <motion.p
+              className="scan-button-hint"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+            >
               Click to analyze your AI model for bias and safety issues
-            </p>
-          </>
+            </motion.p>
+          </motion.div>
         )}
       </div>
 
@@ -279,7 +363,12 @@ function ScanButton({ onScanComplete, onScanStart }) {
         size="md"
         className="scan-modal"
       >
-        <div className="scan-modal-content">
+        <motion.div
+          className="scan-modal-content"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
           <p className="modal-description">
             Provide information about your AI model to begin the integrity audit.
             Our system will analyze bias, safety, and compliance factors.
@@ -311,25 +400,52 @@ function ScanButton({ onScanComplete, onScanStart }) {
               This is a demo. Real scans will use IBM Granite Guardian for analysis.
             </span>
           </div>
-        </div>
+        </motion.div>
       </Modal>
 
       {/* Quick Stats - Show when not scanning */}
       {!isScanning && (
-        <div className="scan-stats">
-          <div className="stat-card">
+        <motion.div
+          className="scan-stats"
+          initial="initial"
+          animate="animate"
+          variants={{
+            animate: {
+              transition: {
+                staggerChildren: 0.1,
+                delayChildren: 0.2
+              }
+            }
+          }}
+        >
+          <motion.div
+            className="stat-card"
+            variants={scaleIn}
+            whileHover={{ scale: 1.05, y: -5 }}
+            transition={{ duration: 0.2 }}
+          >
             <span className="stat-number">~5s</span>
             <span className="stat-label">Avg Scan Time</span>
-          </div>
-          <div className="stat-card">
+          </motion.div>
+          <motion.div
+            className="stat-card"
+            variants={scaleIn}
+            whileHover={{ scale: 1.05, y: -5 }}
+            transition={{ duration: 0.2 }}
+          >
             <span className="stat-number">7</span>
             <span className="stat-label">Audit Checks</span>
-          </div>
-          <div className="stat-card">
+          </motion.div>
+          <motion.div
+            className="stat-card"
+            variants={scaleIn}
+            whileHover={{ scale: 1.05, y: -5 }}
+            transition={{ duration: 0.2 }}
+          >
             <span className="stat-number">100%</span>
             <span className="stat-label">IBM Powered</span>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
     </div>
   );

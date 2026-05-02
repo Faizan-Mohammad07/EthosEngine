@@ -1,10 +1,13 @@
-import { 
+import { motion, AnimatePresence } from 'framer-motion';
+import {
   StructuredListWrapper,
   StructuredListHead,
   StructuredListRow,
   StructuredListCell,
   StructuredListBody,
   Tag,
+  SkeletonText,
+  SkeletonPlaceholder,
 } from '@carbon/react';
 import {
   DataBase,
@@ -12,6 +15,7 @@ import {
   Checkmark,
   Time,
 } from '@carbon/icons-react';
+import { fadeInUp, staggerContainer, slideInRight } from '../utils/animations';
 import './NutritionLabel.css';
 
 /**
@@ -19,7 +23,7 @@ import './NutritionLabel.css';
  * Displays model attributes in a nutrition-label style format
  * Following UI Design Guidelines: Table-like structure with clear borders
  */
-function NutritionLabel({ scanResults }) {
+function NutritionLabel({ scanResults, loading = false }) {
   // Mock data structure as specified in the plan
   const mockData = {
     dataIngredients: [
@@ -106,60 +110,145 @@ function NutritionLabel({ scanResults }) {
     }
   };
 
-  return (
+  // Loading skeleton component
+  const LoadingSkeleton = () => (
     <div className="nutrition-label">
-      {/* Header Section */}
       <div className="nutrition-label-header">
+        <SkeletonText heading width="60%" />
+        <SkeletonText width="80%" />
+      </div>
+      
+      <div className="nutrition-section">
+        <SkeletonText heading width="40%" />
+        <div className="info-grid">
+          <SkeletonPlaceholder style={{ height: '40px', width: '100%' }} />
+          <SkeletonPlaceholder style={{ height: '40px', width: '100%' }} />
+          <SkeletonPlaceholder style={{ height: '40px', width: '100%' }} />
+        </div>
+      </div>
+
+      <div className="nutrition-section">
+        <SkeletonText heading width="40%" />
+        <SkeletonPlaceholder style={{ height: '120px', width: '100%', marginTop: '8px' }} />
+      </div>
+
+      <div className="nutrition-section">
+        <SkeletonText heading width="40%" />
+        <SkeletonPlaceholder style={{ height: '160px', width: '100%', marginTop: '8px' }} />
+      </div>
+    </div>
+  );
+
+  if (loading) {
+    return <LoadingSkeleton />;
+  }
+
+  return (
+    <motion.div
+      className="nutrition-label"
+      initial="initial"
+      animate="animate"
+      variants={staggerContainer}
+    >
+      {/* Header Section */}
+      <motion.div
+        className="nutrition-label-header"
+        variants={fadeInUp}
+      >
         <h3 className="nutrition-label-title">AI Nutrition Label</h3>
         <p className="nutrition-label-subtitle">
           Model transparency and risk assessment
         </p>
-      </div>
+      </motion.div>
 
       {/* Model Information */}
-      <div className="nutrition-section">
+      <motion.div
+        className="nutrition-section"
+        variants={fadeInUp}
+      >
         <div className="section-header">
           <Time size={16} className="section-icon" />
           <h4 className="section-title">Model Information</h4>
         </div>
-        <div className="info-grid">
-          <div className="info-item">
+        <motion.div
+          className="info-grid"
+          variants={staggerContainer}
+          initial="initial"
+          animate="animate"
+        >
+          <motion.div className="info-item" variants={slideInRight}>
             <span className="info-label">Last Audit</span>
-            <span className="info-value">{labelData.lastAudit}</span>
-          </div>
-          <div className="info-item">
+            <motion.span
+              className="info-value"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+            >
+              {labelData.lastAudit}
+            </motion.span>
+          </motion.div>
+          <motion.div className="info-item" variants={slideInRight}>
             <span className="info-label">Version</span>
-            <span className="info-value">{labelData.modelVersion}</span>
-          </div>
-          <div className="info-item">
+            <motion.span
+              className="info-value"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+            >
+              {labelData.modelVersion}
+            </motion.span>
+          </motion.div>
+          <motion.div className="info-item" variants={slideInRight}>
             <span className="info-label">Training Date</span>
-            <span className="info-value">{labelData.trainingDate}</span>
-          </div>
-        </div>
-      </div>
+            <motion.span
+              className="info-value"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              {labelData.trainingDate}
+            </motion.span>
+          </motion.div>
+        </motion.div>
+      </motion.div>
 
       {/* Data Ingredients Section */}
-      <div className="nutrition-section">
+      <motion.div
+        className="nutrition-section"
+        variants={fadeInUp}
+      >
         <div className="section-header">
           <DataBase size={16} className="section-icon" />
           <h4 className="section-title">Data Ingredients</h4>
         </div>
         <StructuredListWrapper className="nutrition-list">
           <StructuredListBody>
-            {labelData.dataIngredients.map((ingredient, index) => (
-              <StructuredListRow key={index}>
-                <StructuredListCell className="ingredient-cell">
-                  <Checkmark size={16} className="ingredient-icon" />
-                  <span className="ingredient-text">{ingredient}</span>
-                </StructuredListCell>
-              </StructuredListRow>
-            ))}
+            <AnimatePresence>
+              {labelData.dataIngredients.map((ingredient, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 + 0.6 }}
+                >
+                  <StructuredListRow>
+                    <StructuredListCell className="ingredient-cell">
+                      <Checkmark size={16} className="ingredient-icon" />
+                      <span className="ingredient-text">{ingredient}</span>
+                    </StructuredListCell>
+                  </StructuredListRow>
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </StructuredListBody>
         </StructuredListWrapper>
-      </div>
+      </motion.div>
 
       {/* Risk Factors Section */}
-      <div className="nutrition-section">
+      <motion.div
+        className="nutrition-section"
+        variants={fadeInUp}
+      >
         <div className="section-header">
           <WarningAlt size={16} className="section-icon" />
           <h4 className="section-title">Risk Factors</h4>
@@ -179,37 +268,55 @@ function NutritionLabel({ scanResults }) {
             </StructuredListRow>
           </StructuredListHead>
           <StructuredListBody>
-            {labelData.riskFactors.map((risk, index) => (
-              <StructuredListRow key={index}>
-                <StructuredListCell className="risk-cell">
-                  {risk.type}
-                </StructuredListCell>
-                <StructuredListCell className="risk-cell risk-value">
-                  {risk.value}
-                </StructuredListCell>
-                <StructuredListCell className="risk-cell">
-                  <Tag
-                    type={getRiskColor(risk.level)}
-                    size="sm"
-                    className="risk-tag"
-                  >
-                    {risk.level.toUpperCase()}
-                  </Tag>
-                </StructuredListCell>
-              </StructuredListRow>
-            ))}
+            <AnimatePresence>
+              {labelData.riskFactors.map((risk, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 + 1.0 }}
+                >
+                  <StructuredListRow>
+                    <StructuredListCell className="risk-cell">
+                      {risk.type}
+                    </StructuredListCell>
+                    <StructuredListCell className="risk-cell risk-value">
+                      {risk.value}
+                    </StructuredListCell>
+                    <StructuredListCell className="risk-cell">
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: index * 0.1 + 1.1, type: "spring", stiffness: 200 }}
+                      >
+                        <Tag
+                          type={getRiskColor(risk.level)}
+                          size="sm"
+                          className="risk-tag"
+                        >
+                          {risk.level.toUpperCase()}
+                        </Tag>
+                      </motion.div>
+                    </StructuredListCell>
+                  </StructuredListRow>
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </StructuredListBody>
         </StructuredListWrapper>
-      </div>
+      </motion.div>
 
       {/* Footer Note */}
-      <div className="nutrition-footer">
+      <motion.div
+        className="nutrition-footer"
+        variants={fadeInUp}
+      >
         <p className="footer-text">
           This label provides transparency into the AI model's training data and potential risks.
           Regular audits ensure ongoing compliance and safety.
         </p>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 

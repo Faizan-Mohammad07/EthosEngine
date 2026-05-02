@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Header,
   HeaderName,
@@ -25,6 +26,7 @@ import {
 import NutritionLabel from './NutritionLabel';
 import TrustScoreGauge from './TrustScoreGauge';
 import ScanButton from './ScanButton';
+import { fadeInUp, staggerContainer, scaleIn } from '../utils/animations';
 import './Dashboard.css';
 
 function Dashboard() {
@@ -153,55 +155,118 @@ function Dashboard() {
           <Grid className="dashboard-grid" fullWidth>
             {/* Hero Section */}
             <Column lg={16} md={8} sm={4} className="dashboard-hero">
-              <div className="hero-content">
+              <motion.div
+                className="hero-content"
+                initial="initial"
+                animate="animate"
+                variants={fadeInUp}
+              >
                 <h1 className="hero-title">AI Integrity Sentinel</h1>
                 <p className="hero-subtitle">
                   Real-time AI auditing powered by IBM Granite Guardian
                 </p>
-                <div className="hero-stats">
-                  <div className="stat-item">
-                    <span className="stat-value">{auditStats.totalAudits}</span>
+                <motion.div
+                  className="hero-stats"
+                  variants={staggerContainer}
+                  initial="initial"
+                  animate="animate"
+                >
+                  <motion.div className="stat-item" variants={fadeInUp}>
+                    <motion.span
+                      className="stat-value"
+                      key={auditStats.totalAudits}
+                      initial={{ scale: 1.2, color: '#0f62fe' }}
+                      animate={{ scale: 1, color: '#ffffff' }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {auditStats.totalAudits}
+                    </motion.span>
                     <span className="stat-label">Audits Completed</span>
-                  </div>
-                  <div className="stat-item">
-                    <span className="stat-value">
+                  </motion.div>
+                  <motion.div className="stat-item" variants={fadeInUp}>
+                    <motion.span
+                      className="stat-value"
+                      key={auditStats.avgTrustScore}
+                      initial={{ scale: 1.2, color: '#0f62fe' }}
+                      animate={{ scale: 1, color: '#ffffff' }}
+                      transition={{ duration: 0.3 }}
+                    >
                       {auditStats.avgTrustScore !== null ? auditStats.avgTrustScore : '--'}
-                    </span>
+                    </motion.span>
                     <span className="stat-label">Avg Trust Score</span>
-                  </div>
-                  <div className="stat-item">
-                    <span className="stat-value">{auditStats.criticalIssues}</span>
+                  </motion.div>
+                  <motion.div className="stat-item" variants={fadeInUp}>
+                    <motion.span
+                      className="stat-value"
+                      key={auditStats.criticalIssues}
+                      initial={{ scale: 1.2, color: '#da1e28' }}
+                      animate={{ scale: 1, color: '#ffffff' }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {auditStats.criticalIssues}
+                    </motion.span>
                     <span className="stat-label">Critical Issues</span>
-                  </div>
-                </div>
-              </div>
+                  </motion.div>
+                </motion.div>
+              </motion.div>
             </Column>
 
             {/* Main Dashboard Grid - Trust Score Gauge */}
             <Column lg={10} md={6} sm={4} className="dashboard-main-section">
-              <TrustScoreGauge
-                score={trustScoreData.score}
-                loading={trustScoreData.loading}
-                riskLevel={trustScoreData.riskLevel}
-              />
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={trustScoreData.score || 'empty'}
+                  variants={scaleIn}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                >
+                  <TrustScoreGauge
+                    score={trustScoreData.score}
+                    loading={trustScoreData.loading}
+                    riskLevel={trustScoreData.riskLevel}
+                  />
+                </motion.div>
+              </AnimatePresence>
             </Column>
 
             <Column lg={6} md={6} sm={4} className="dashboard-side-section">
-              <NutritionLabel scanResults={scanResults} />
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={scanResults ? 'results' : 'empty'}
+                  variants={fadeInUp}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                >
+                  <NutritionLabel scanResults={scanResults} />
+                </motion.div>
+              </AnimatePresence>
             </Column>
 
             {/* Scan Action Area */}
             <Column lg={16} md={8} sm={4} className="dashboard-action-section">
-              <ScanButton
-                onScanStart={handleScanStart}
-                onScanComplete={handleScanComplete}
-              />
+              <motion.div
+                variants={fadeInUp}
+                initial="initial"
+                animate="animate"
+              >
+                <ScanButton
+                  onScanStart={handleScanStart}
+                  onScanComplete={handleScanComplete}
+                />
+              </motion.div>
             </Column>
 
             {/* Additional Info Section */}
             <Column lg={16} md={8} sm={4} className="dashboard-info-section">
-              <div className="info-card">
-                <h4>Development Progress - Priority #1 Complete! 🎉</h4>
+              <motion.div
+                className="info-card"
+                variants={fadeInUp}
+                initial="initial"
+                animate="animate"
+              >
+                <h4>Development Progress - Priority #3 Task 2 Complete! 🎉</h4>
                 <ul>
                   <li>✅ Dashboard layout created with IBM Carbon Design System</li>
                   <li>✅ Responsive grid system implemented</li>
@@ -210,8 +275,10 @@ function Dashboard() {
                   <li>✅ Trust Score Gauge component with smooth animations</li>
                   <li>✅ Scan Button with loading states and modal input</li>
                   <li>✅ Full integration: Scan → Loading → Results → Stats update</li>
+                  <li>✅ Enhanced animations with Framer Motion</li>
+                  <li>✅ Smooth state transitions throughout dashboard</li>
                 </ul>
-              </div>
+              </motion.div>
             </Column>
           </Grid>
         </Content>

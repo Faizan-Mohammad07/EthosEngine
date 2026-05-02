@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { 
+import { motion, AnimatePresence } from 'framer-motion';
+import {
   Loading,
   Tag,
 } from '@carbon/react';
@@ -8,6 +9,7 @@ import {
   WarningAltFilled,
   ErrorFilled,
 } from '@carbon/icons-react';
+import { fadeIn, scaleIn, DURATION } from '../utils/animations';
 import './TrustScoreGauge.css';
 
 /**
@@ -105,133 +107,235 @@ function TrustScoreGauge({ score = null, loading = false, riskLevel = null }) {
   return (
     <div className="trust-score-gauge">
       {/* Header Section */}
-      <div className="gauge-header">
+      <motion.div
+        className="gauge-header"
+        variants={fadeIn}
+        initial="initial"
+        animate="animate"
+      >
         <h3 className="gauge-title">Trust Score</h3>
         <p className="gauge-subtitle">
           Real-time AI integrity assessment
         </p>
-      </div>
+      </motion.div>
 
       {/* Gauge Container */}
       <div className="gauge-container">
-        {loading ? (
-          <div className="gauge-loading">
-            <Loading description="Analyzing AI model..." withOverlay={false} />
-            <p className="loading-text">Scanning for bias and safety issues...</p>
-          </div>
-        ) : score !== null ? (
-          <>
-            {/* SVG Circular Gauge */}
-            <svg className="gauge-svg" viewBox="0 0 280 280">
-              {/* Background Circle */}
-              <circle
-                className="gauge-background"
-                cx="140"
-                cy="140"
-                r="120"
-                fill="none"
-                stroke="#393939"
-                strokeWidth="24"
-              />
-              
-              {/* Animated Progress Circle */}
-              <circle
-                className="gauge-progress"
-                cx="140"
-                cy="140"
-                r="120"
-                fill="none"
-                stroke={currentColor}
-                strokeWidth="24"
-                strokeLinecap="round"
-                strokeDasharray={circumference}
-                strokeDashoffset={strokeDashoffset}
-                transform="rotate(-90 140 140)"
-                style={{
-                  transition: isAnimating ? 'stroke-dashoffset 0.025s linear' : 'stroke-dashoffset 0.3s ease',
-                }}
-              />
-
-              {/* Center Content */}
-              <g className="gauge-center">
-                {/* Score Value */}
-                <text
-                  x="140"
-                  y="130"
-                  textAnchor="middle"
-                  className="gauge-score"
-                  fill="#ffffff"
-                >
-                  {animatedScore}
-                </text>
+        <AnimatePresence mode="wait">
+          {loading ? (
+            <motion.div
+              key="loading"
+              className="gauge-loading"
+              variants={scaleIn}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            >
+              <Loading description="Analyzing AI model..." withOverlay={false} />
+              <p className="loading-text">Scanning for bias and safety issues...</p>
+            </motion.div>
+          ) : score !== null ? (
+            <motion.div
+              key="gauge"
+              variants={scaleIn}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            >
+              {/* SVG Circular Gauge */}
+              <svg className="gauge-svg" viewBox="0 0 280 280">
+                {/* Background Circle */}
+                <circle
+                  className="gauge-background"
+                  cx="140"
+                  cy="140"
+                  r="120"
+                  fill="none"
+                  stroke="#393939"
+                  strokeWidth="24"
+                />
                 
-                {/* Score Label */}
-                <text
-                  x="140"
-                  y="160"
-                  textAnchor="middle"
-                  className="gauge-score-label"
-                  fill="#c6c6c6"
-                >
-                  / 100
-                </text>
-              </g>
-            </svg>
+                {/* Animated Progress Circle */}
+                <motion.circle
+                  className="gauge-progress"
+                  cx="140"
+                  cy="140"
+                  r="120"
+                  fill="none"
+                  stroke={currentColor}
+                  strokeWidth="24"
+                  strokeLinecap="round"
+                  strokeDasharray={circumference}
+                  initial={{ strokeDashoffset: circumference }}
+                  animate={{
+                    strokeDashoffset: strokeDashoffset,
+                    stroke: currentColor
+                  }}
+                  transition={{
+                    strokeDashoffset: { duration: 1.5, ease: [0.4, 0.14, 0.3, 1] },
+                    stroke: { duration: 0.3 }
+                  }}
+                  transform="rotate(-90 140 140)"
+                />
 
-            {/* Risk Level Indicator */}
-            <div className="gauge-risk-indicator">
-              <div className="risk-icon" style={{ color: currentColor }}>
-                {getRiskIcon(currentRiskLevel)}
-              </div>
-              <Tag
-                type={currentRiskLevel}
-                size="md"
-                className="risk-tag"
-              >
-                {getRiskLabel(currentRiskLevel)}
-              </Tag>
-            </div>
-
-            {/* Score Breakdown */}
-            <div className="gauge-breakdown">
-              <div className="breakdown-item">
-                <span className="breakdown-label">Bias Detection</span>
-                <span className="breakdown-value" style={{ color: currentColor }}>
-                  {animatedScore >= 71 ? 'Low' : animatedScore >= 41 ? 'Medium' : 'High'}
-                </span>
-              </div>
-              <div className="breakdown-item">
-                <span className="breakdown-label">Safety Score</span>
-                <span className="breakdown-value" style={{ color: currentColor }}>
-                  {animatedScore}%
-                </span>
-              </div>
-              <div className="breakdown-item">
-                <span className="breakdown-label">Compliance</span>
-                <span className="breakdown-value" style={{ color: currentColor }}>
-                  {animatedScore >= 71 ? 'Passed' : animatedScore >= 41 ? 'Review' : 'Failed'}
-                </span>
-              </div>
-            </div>
-          </>
-        ) : (
-          <div className="gauge-empty">
-            <div className="empty-icon">
-              <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-                <circle cx="40" cy="40" r="38" stroke="#393939" strokeWidth="4" strokeDasharray="8 8" />
-                <text x="40" y="48" textAnchor="middle" fill="#8d8d8d" fontSize="16" fontWeight="500">
-                  --
-                </text>
+                {/* Center Content */}
+                <g className="gauge-center">
+                  {/* Score Value */}
+                  <motion.text
+                    x="140"
+                    y="130"
+                    textAnchor="middle"
+                    className="gauge-score"
+                    fill="#ffffff"
+                    key={animatedScore}
+                    initial={{ scale: 1.2, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.3, delay: 0.5 }}
+                  >
+                    {animatedScore}
+                  </motion.text>
+                  
+                  {/* Score Label */}
+                  <text
+                    x="140"
+                    y="160"
+                    textAnchor="middle"
+                    className="gauge-score-label"
+                    fill="#c6c6c6"
+                  >
+                    / 100
+                  </text>
+                </g>
               </svg>
-            </div>
-            <p className="empty-text">No audit data available</p>
-            <p className="empty-subtext">Click "Scan AI Model" to begin analysis</p>
-          </div>
-        )}
+
+              {/* Risk Level Indicator */}
+              <motion.div
+                className="gauge-risk-indicator"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8, duration: 0.4 }}
+              >
+                <motion.div
+                  className="risk-icon"
+                  style={{ color: currentColor }}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 1, duration: 0.3, type: "spring", stiffness: 200 }}
+                >
+                  {getRiskIcon(currentRiskLevel)}
+                </motion.div>
+                <Tag
+                  type={currentRiskLevel}
+                  size="md"
+                  className="risk-tag"
+                >
+                  {getRiskLabel(currentRiskLevel)}
+                </Tag>
+              </motion.div>
+
+              {/* Score Breakdown */}
+              <motion.div
+                className="gauge-breakdown"
+                initial="initial"
+                animate="animate"
+                variants={{
+                  animate: {
+                    transition: {
+                      staggerChildren: 0.1,
+                      delayChildren: 1.2
+                    }
+                  }
+                }}
+              >
+                <motion.div
+                  className="breakdown-item"
+                  variants={fadeIn}
+                >
+                  <span className="breakdown-label">Bias Detection</span>
+                  <motion.span
+                    className="breakdown-value"
+                    style={{ color: currentColor }}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 1.3 }}
+                  >
+                    {animatedScore >= 71 ? 'Low' : animatedScore >= 41 ? 'Medium' : 'High'}
+                  </motion.span>
+                </motion.div>
+                <motion.div
+                  className="breakdown-item"
+                  variants={fadeIn}
+                >
+                  <span className="breakdown-label">Safety Score</span>
+                  <motion.span
+                    className="breakdown-value"
+                    style={{ color: currentColor }}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 1.4 }}
+                  >
+                    {animatedScore}%
+                  </motion.span>
+                </motion.div>
+                <motion.div
+                  className="breakdown-item"
+                  variants={fadeIn}
+                >
+                  <span className="breakdown-label">Compliance</span>
+                  <motion.span
+                    className="breakdown-value"
+                    style={{ color: currentColor }}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 1.5 }}
+                  >
+                    {animatedScore >= 71 ? 'Passed' : animatedScore >= 41 ? 'Review' : 'Failed'}
+                  </motion.span>
+                </motion.div>
+              </motion.div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="empty"
+              className="gauge-empty"
+              variants={fadeIn}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            >
+              <motion.div
+                className="empty-icon"
+                animate={{
+                  rotate: [0, 5, -5, 0],
+                  scale: [1, 1.05, 1]
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                  <circle cx="40" cy="40" r="38" stroke="#393939" strokeWidth="4" strokeDasharray="8 8" />
+                  <text x="40" y="48" textAnchor="middle" fill="#8d8d8d" fontSize="16" fontWeight="500">
+                    --
+                  </text>
+                </svg>
+              </motion.div>
+              <p className="empty-text">No audit data available</p>
+              <p className="empty-subtext">Click "Scan AI Model" to begin analysis</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Score Range Legend */}
-      <div className="gauge-legend">
+      <motion.div
+        className="gauge-legend"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.4 }}
+      >
         <div className="legend-item">
           <div className="legend-color" style={{ backgroundColor: '#24a148' }}></div>
           <span className="legend-label">71-100: High Trust</span>
@@ -244,7 +348,7 @@ function TrustScoreGauge({ score = null, loading = false, riskLevel = null }) {
           <div className="legend-color" style={{ backgroundColor: '#da1e28' }}></div>
           <span className="legend-label">0-40: High Risk</span>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
