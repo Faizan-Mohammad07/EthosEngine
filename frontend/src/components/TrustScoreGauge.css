@@ -1,0 +1,332 @@
+/*
+ * Trust Score Gauge Styles
+ * Following UI Design Guidelines (Documentation/ui_design_guidelines.md)
+ * - Large circular gauge as hero element
+ * - Smooth animation on component mount
+ * - Semantic colors: #da1e28 (Red), #f1c21b (Yellow), #24a148 (Green)
+ * - 8px base grid spacing
+ * - 0px border radius for strict professional look
+ * - Flat design with minimal shadows
+ */
+
+/* Main Container */
+.trust-score-gauge {
+  background-color: #262626; /* Dark mode background */
+  border: 1px solid #393939; /* Border per guidelines */
+  border-radius: 0px; /* Strict professional look per guidelines */
+  padding: 0; /* No padding on container, padding on sections */
+  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header Section */
+.gauge-header {
+  padding: 24px; /* 24px comfortable padding per guidelines */
+  border-bottom: 1px solid #393939; /* Clear border separation */
+  background-color: #161616; /* Darker header background */
+}
+
+.gauge-title {
+  font-size: 20px; /* H3: 20px per guidelines */
+  font-weight: 600; /* Semi-Bold per guidelines */
+  line-height: 28px; /* 28px line height per guidelines */
+  margin: 0 0 8px 0; /* 8px base grid */
+  color: #ffffff; /* High contrast white text */
+}
+
+.gauge-subtitle {
+  font-size: 14px; /* Body: 14px per guidelines */
+  line-height: 20px; /* 20px line height per guidelines */
+  font-weight: 400; /* Regular per guidelines */
+  margin: 0;
+  color: #c6c6c6; /* Sufficient contrast for body text */
+}
+
+/* Gauge Container */
+.gauge-container {
+  padding: 32px 24px; /* 32px vertical, 24px horizontal */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  position: relative;
+}
+
+/* SVG Gauge */
+.gauge-svg {
+  width: 280px;
+  height: 280px;
+  margin-bottom: 24px; /* 24px gap per guidelines */
+}
+
+.gauge-background {
+  opacity: 0.3;
+}
+
+.gauge-progress {
+  filter: drop-shadow(0 0 8px currentColor);
+}
+
+/* Center Content */
+.gauge-score {
+  font-size: 56px; /* Large display size for hero element */
+  font-weight: 600; /* Semi-Bold per guidelines */
+  font-family: 'IBM Plex Sans', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.gauge-score-label {
+  font-size: 16px; /* Slightly larger than body */
+  font-weight: 400; /* Regular per guidelines */
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+/* Risk Level Indicator */
+.gauge-risk-indicator {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Slightly larger gap for visual emphasis */
+  margin-bottom: 24px; /* 24px gap per guidelines */
+}
+
+.risk-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.risk-tag {
+  font-size: 14px; /* Body: 14px per guidelines */
+  font-weight: 500; /* Medium per guidelines */
+  padding: 8px 16px; /* 8px base grid */
+}
+
+/* Carbon Tag Color Overrides for Semantic Colors */
+.cds--tag--green {
+  background-color: #24a148; /* Green (Safe) per guidelines */
+  color: #ffffff;
+}
+
+.cds--tag--yellow {
+  background-color: #f1c21b; /* Yellow (Caution) per guidelines */
+  color: #161616; /* Dark text for contrast */
+}
+
+.cds--tag--red {
+  background-color: #da1e28; /* Red (Critical) per guidelines */
+  color: #ffffff;
+}
+
+/* Score Breakdown */
+.gauge-breakdown {
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Slightly larger than 8px for readability */
+  padding: 16px; /* 16px padding per guidelines */
+  background-color: #161616; /* Darker background for contrast */
+  border: 1px solid #393939; /* Border per guidelines */
+  border-radius: 0px; /* Strict professional look per guidelines */
+}
+
+.breakdown-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0; /* 8px base grid */
+  border-bottom: 1px solid #393939;
+}
+
+.breakdown-item:last-child {
+  border-bottom: none;
+}
+
+.breakdown-label {
+  font-size: 14px; /* Body: 14px per guidelines */
+  line-height: 20px; /* 20px line height per guidelines */
+  font-weight: 400; /* Regular per guidelines */
+  color: #c6c6c6;
+}
+
+.breakdown-value {
+  font-size: 14px; /* Body: 14px per guidelines */
+  line-height: 20px; /* 20px line height per guidelines */
+  font-weight: 600; /* Semi-Bold for emphasis */
+  color: #ffffff;
+}
+
+/* Loading State */
+.gauge-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px; /* 24px gap per guidelines */
+  min-height: 300px;
+}
+
+.loading-text {
+  font-size: 14px; /* Body: 14px per guidelines */
+  line-height: 20px; /* 20px line height per guidelines */
+  font-weight: 400; /* Regular per guidelines */
+  color: #c6c6c6;
+  margin: 0;
+  text-align: center;
+}
+
+/* Empty State */
+.gauge-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px; /* 16px gap per guidelines */
+  min-height: 300px;
+  text-align: center;
+}
+
+.empty-icon {
+  margin-bottom: 8px; /* 8px base grid */
+}
+
+.empty-text {
+  font-size: 16px; /* Slightly larger than body for emphasis */
+  line-height: 24px;
+  font-weight: 500; /* Medium per guidelines */
+  color: #f4f4f4;
+  margin: 0;
+}
+
+.empty-subtext {
+  font-size: 14px; /* Body: 14px per guidelines */
+  line-height: 20px; /* 20px line height per guidelines */
+  font-weight: 400; /* Regular per guidelines */
+  color: #8d8d8d;
+  margin: 0;
+}
+
+/* Score Range Legend */
+.gauge-legend {
+  padding: 16px 24px; /* 16px vertical, 24px horizontal */
+  background-color: #161616; /* Darker footer background */
+  border-top: 1px solid #393939;
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* 8px base grid */
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* 8px base grid */
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 0px; /* Strict professional look per guidelines */
+  flex-shrink: 0;
+}
+
+.legend-label {
+  font-size: 12px; /* Label: 12px per guidelines */
+  line-height: 16px; /* 16px line height per guidelines */
+  font-weight: 400; /* Regular per guidelines */
+  color: #c6c6c6;
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.gauge-progress {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Responsive Design - Maintaining 8px grid */
+@media (max-width: 672px) {
+  .gauge-header {
+    padding: 16px; /* 16px compact padding for mobile */
+  }
+
+  .gauge-container {
+    padding: 24px 16px; /* Reduce padding for mobile */
+    min-height: 350px;
+  }
+
+  .gauge-svg {
+    width: 240px;
+    height: 240px;
+  }
+
+  .gauge-score {
+    font-size: 48px; /* Reduce size for mobile */
+  }
+
+  .gauge-score-label {
+    font-size: 14px;
+  }
+
+  .gauge-breakdown {
+    max-width: 100%;
+    padding: 12px; /* Reduce padding for mobile */
+  }
+
+  .gauge-legend {
+    padding: 16px; /* 16px padding for mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .gauge-svg {
+    width: 200px;
+    height: 200px;
+  }
+
+  .gauge-score {
+    font-size: 40px;
+  }
+
+  .gauge-risk-indicator {
+    flex-direction: column;
+    gap: 8px; /* 8px base grid */
+  }
+}
+
+/* Accessibility - High contrast focus states */
+.trust-score-gauge:focus-within {
+  outline: 2px solid #0f62fe; /* Primary Blue per guidelines */
+  outline-offset: 2px;
+}
+
+/* Smooth transitions for professional feel */
+.gauge-progress,
+.breakdown-value,
+.risk-icon {
+  transition: all 0.3s ease;
+}
+
+/* High contrast for accessibility - WCAG AA compliant */
+.gauge-title,
+.gauge-score,
+.breakdown-value {
+  color: #ffffff; /* High contrast white text */
+}
+
+.gauge-subtitle,
+.breakdown-label,
+.legend-label,
+.loading-text {
+  color: #c6c6c6; /* Sufficient contrast for body text */
+}
+
+/* Made with Bob */

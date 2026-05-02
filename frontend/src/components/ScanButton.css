@@ -1,0 +1,328 @@
+/*
+ * Scan Button Styles
+ * Following UI Design Guidelines (Documentation/ui_design_guidelines.md)
+ * - Primary Blue (#0f62fe) for actionable elements
+ * - Clear call-to-action design
+ * - Loading state with animations
+ * - 8px base grid spacing
+ * - 0px or 2px border radius
+ * - Flat design with minimal shadows
+ */
+
+/* Main Container */
+.scan-button-container {
+  background-color: #262626; /* Dark mode background */
+  border: 1px solid #393939; /* Border per guidelines */
+  border-radius: 0px; /* Strict professional look per guidelines */
+  padding: 32px 24px; /* 32px vertical, 24px horizontal */
+  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px; /* 24px gap per guidelines */
+}
+
+/* Scan Button Wrapper */
+.scan-button-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px; /* 16px gap per guidelines */
+}
+
+/* Main Scan Button */
+.scan-button {
+  min-width: 240px;
+  height: 56px; /* Large button for hero CTA */
+  font-size: 16px; /* Slightly larger than body */
+  font-weight: 500; /* Medium per guidelines */
+  letter-spacing: 0.02em;
+  transition: all 0.2s ease;
+}
+
+.scan-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(15, 98, 254, 0.3);
+}
+
+.scan-button:active {
+  transform: translateY(0);
+}
+
+/* Button Hint Text */
+.scan-button-hint {
+  font-size: 14px; /* Body: 14px per guidelines */
+  line-height: 20px; /* 20px line height per guidelines */
+  font-weight: 400; /* Regular per guidelines */
+  color: #8d8d8d;
+  margin: 0;
+  text-align: center;
+  max-width: 400px;
+}
+
+/* Scanning State */
+.scanning-state {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px; /* 24px gap per guidelines */
+  padding: 24px; /* 24px padding per guidelines */
+  background-color: #161616; /* Darker background for emphasis */
+  border: 1px solid #393939;
+  border-radius: 2px; /* 2px subtle modern touch per guidelines */
+}
+
+.scan-loading {
+  font-size: 14px; /* Body: 14px per guidelines */
+  color: #f4f4f4;
+}
+
+/* Scanning Animation */
+.scanning-animation {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scan-pulse {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 2px solid #0f62fe; /* Primary Blue per guidelines */
+  border-radius: 50%;
+  animation: pulse-animation 2s ease-out infinite;
+  opacity: 0;
+}
+
+.scan-pulse.delay-1 {
+  animation-delay: 0.5s;
+}
+
+.scan-pulse.delay-2 {
+  animation-delay: 1s;
+}
+
+@keyframes pulse-animation {
+  0% {
+    transform: scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Modal Styles */
+.scan-modal .cds--modal-container {
+  background-color: #262626;
+  border: 1px solid #393939;
+}
+
+.scan-modal .cds--modal-header {
+  background-color: #161616;
+  border-bottom: 1px solid #393939;
+}
+
+.scan-modal .cds--modal-content {
+  background-color: #262626;
+  padding: 24px; /* 24px comfortable padding per guidelines */
+}
+
+.scan-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px; /* 24px gap per guidelines */
+}
+
+.modal-description {
+  font-size: 14px; /* Body: 14px per guidelines */
+  line-height: 20px; /* 20px line height per guidelines */
+  font-weight: 400; /* Regular per guidelines */
+  color: #c6c6c6;
+  margin: 0 0 8px 0; /* 8px base grid */
+}
+
+.modal-input,
+.modal-textarea {
+  margin-bottom: 0;
+}
+
+.modal-info {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* 8px base grid */
+  padding: 12px 16px; /* Comfortable padding */
+  background-color: #161616;
+  border: 1px solid #393939;
+  border-radius: 2px; /* 2px subtle modern touch per guidelines */
+}
+
+.info-icon {
+  color: #24a148; /* Green (Safe) per guidelines */
+  flex-shrink: 0;
+}
+
+.info-text {
+  font-size: 12px; /* Label: 12px per guidelines */
+  line-height: 16px; /* 16px line height per guidelines */
+  font-weight: 400; /* Regular per guidelines */
+  color: #c6c6c6;
+}
+
+/* Quick Stats */
+.scan-stats {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 16px; /* 16px between widgets per guidelines */
+  padding-top: 16px; /* 16px padding per guidelines */
+  border-top: 1px solid #393939;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px; /* 8px base grid */
+  padding: 16px; /* 16px padding per guidelines */
+  background-color: #161616;
+  border: 1px solid #393939;
+  border-radius: 0px; /* Strict professional look per guidelines */
+  transition: border-color 0.2s ease;
+}
+
+.stat-card:hover {
+  border-color: #525252;
+}
+
+.stat-number {
+  font-size: 24px; /* H2: 24px per guidelines */
+  font-weight: 600; /* Semi-Bold per guidelines */
+  line-height: 32px; /* 32px line height per guidelines */
+  color: #0f62fe; /* Primary Blue per guidelines */
+}
+
+.stat-label {
+  font-size: 12px; /* Label: 12px per guidelines */
+  line-height: 16px; /* 16px line height per guidelines */
+  font-weight: 500; /* Medium per guidelines */
+  color: #8d8d8d;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+/* Carbon Component Overrides */
+.cds--btn--primary {
+  background-color: #0f62fe; /* Primary Blue per guidelines */
+  border: none;
+}
+
+.cds--btn--primary:hover {
+  background-color: #0353e9; /* Darker blue on hover */
+}
+
+.cds--btn--primary:active {
+  background-color: #002d9c; /* Even darker on active */
+}
+
+.cds--text-input,
+.cds--text-area {
+  background-color: #161616;
+  border-bottom: 1px solid #393939;
+  color: #f4f4f4;
+}
+
+.cds--text-input:focus,
+.cds--text-area:focus {
+  outline: 2px solid #0f62fe; /* Primary Blue per guidelines */
+  outline-offset: -2px;
+}
+
+.cds--label {
+  font-size: 12px; /* Label: 12px per guidelines */
+  line-height: 16px; /* 16px line height per guidelines */
+  font-weight: 500; /* Medium per guidelines */
+  color: #c6c6c6;
+  margin-bottom: 8px; /* 8px base grid */
+}
+
+/* Responsive Design - Maintaining 8px grid */
+@media (max-width: 672px) {
+  .scan-button-container {
+    padding: 24px 16px; /* Reduce padding for mobile */
+  }
+
+  .scan-button {
+    min-width: 200px;
+    height: 48px; /* Slightly smaller for mobile */
+    font-size: 14px;
+  }
+
+  .scanning-animation {
+    width: 60px;
+    height: 60px;
+  }
+
+  .scan-stats {
+    grid-template-columns: 1fr;
+    gap: 8px; /* Reduce to 8px for mobile */
+  }
+
+  .stat-card {
+    padding: 12px; /* Reduce padding for mobile */
+  }
+
+  .stat-number {
+    font-size: 20px; /* H3 size for mobile */
+    line-height: 28px;
+  }
+}
+
+/* Accessibility - High contrast focus states */
+.scan-button:focus,
+.stat-card:focus-within {
+  outline: 2px solid #0f62fe; /* Primary Blue per guidelines */
+  outline-offset: 2px;
+}
+
+/* Smooth transitions for professional feel */
+.scan-button,
+.stat-card,
+.modal-info {
+  transition: all 0.2s ease;
+}
+
+/* High contrast for accessibility - WCAG AA compliant */
+.stat-number {
+  color: #0f62fe; /* Primary Blue with sufficient contrast */
+}
+
+.modal-description,
+.scan-button-hint,
+.stat-label,
+.info-text {
+  color: #c6c6c6; /* Sufficient contrast for body text */
+}
+
+/* Loading state pulse effect */
+@keyframes loading-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.scanning-state {
+  animation: loading-pulse 2s ease-in-out infinite;
+}
+
+/* Made with Bob */

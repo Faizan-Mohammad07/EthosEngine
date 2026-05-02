@@ -23,10 +23,59 @@ import {
   UserAvatar,
 } from '@carbon/icons-react';
 import NutritionLabel from './NutritionLabel';
+import TrustScoreGauge from './TrustScoreGauge';
+import ScanButton from './ScanButton';
 import './Dashboard.css';
 
 function Dashboard() {
   const [isSideNavExpanded, setIsSideNavExpanded] = useState(false);
+  
+  // State for Trust Score Gauge - now dynamic based on scan results
+  const [trustScoreData, setTrustScoreData] = useState({
+    score: null, // Start with empty state
+    loading: false,
+    riskLevel: null,
+  });
+
+  // State for tracking total audits
+  const [auditStats, setAuditStats] = useState({
+    totalAudits: 0,
+    avgTrustScore: null,
+    criticalIssues: 0,
+  });
+
+  // Handle scan start - show loading state
+  const handleScanStart = () => {
+    setTrustScoreData({
+      score: null,
+      loading: true,
+      riskLevel: null,
+    });
+  };
+
+  // Handle scan completion - update with results
+  const handleScanComplete = (results) => {
+    setTrustScoreData({
+      score: results.score,
+      loading: false,
+      riskLevel: results.riskLevel,
+    });
+
+    // Update audit statistics
+    setAuditStats(prev => {
+      const newTotal = prev.totalAudits + 1;
+      const newAvg = prev.avgTrustScore
+        ? Math.round((prev.avgTrustScore * prev.totalAudits + results.score) / newTotal)
+        : results.score;
+      const newCritical = results.score < 41 ? prev.criticalIssues + 1 : prev.criticalIssues;
+
+      return {
+        totalAudits: newTotal,
+        avgTrustScore: newAvg,
+        criticalIssues: newCritical,
+      };
+    });
+  };
 
   return (
     <Theme theme="g100">
@@ -93,27 +142,30 @@ function Dashboard() {
                 </p>
                 <div className="hero-stats">
                   <div className="stat-item">
-                    <span className="stat-value">0</span>
+                    <span className="stat-value">{auditStats.totalAudits}</span>
                     <span className="stat-label">Audits Completed</span>
                   </div>
                   <div className="stat-item">
-                    <span className="stat-value">--</span>
+                    <span className="stat-value">
+                      {auditStats.avgTrustScore !== null ? auditStats.avgTrustScore : '--'}
+                    </span>
                     <span className="stat-label">Avg Trust Score</span>
                   </div>
                   <div className="stat-item">
-                    <span className="stat-value">0</span>
+                    <span className="stat-value">{auditStats.criticalIssues}</span>
                     <span className="stat-label">Critical Issues</span>
                   </div>
                 </div>
               </div>
             </Column>
 
-            {/* Main Dashboard Grid - Placeholder for components */}
+            {/* Main Dashboard Grid - Trust Score Gauge */}
             <Column lg={10} md={6} sm={4} className="dashboard-main-section">
-              <div className="component-placeholder">
-                <h3>Trust Score Gauge</h3>
-                <p>Component will be added in Task 4</p>
-              </div>
+              <TrustScoreGauge
+                score={trustScoreData.score}
+                loading={trustScoreData.loading}
+                riskLevel={trustScoreData.riskLevel}
+              />
             </Column>
 
             <Column lg={6} md={6} sm={4} className="dashboard-side-section">
@@ -122,23 +174,24 @@ function Dashboard() {
 
             {/* Scan Action Area */}
             <Column lg={16} md={8} sm={4} className="dashboard-action-section">
-              <div className="component-placeholder action-placeholder">
-                <h3>Scan Button</h3>
-                <p>Component will be added in Task 5</p>
-              </div>
+              <ScanButton
+                onScanStart={handleScanStart}
+                onScanComplete={handleScanComplete}
+              />
             </Column>
 
             {/* Additional Info Section */}
             <Column lg={16} md={8} sm={4} className="dashboard-info-section">
               <div className="info-card">
-                <h4>Development Progress</h4>
+                <h4>Development Progress - Priority #1 Complete! 🎉</h4>
                 <ul>
                   <li>✅ Dashboard layout created with IBM Carbon Design System</li>
                   <li>✅ Responsive grid system implemented</li>
                   <li>✅ Header and navigation configured</li>
                   <li>✅ AI Nutrition Label component integrated</li>
-                  <li>⏳ Awaiting Trust Score Gauge component</li>
-                  <li>⏳ Awaiting Scan Button component</li>
+                  <li>✅ Trust Score Gauge component with smooth animations</li>
+                  <li>✅ Scan Button with loading states and modal input</li>
+                  <li>✅ Full integration: Scan → Loading → Results → Stats update</li>
                 </ul>
               </div>
             </Column>
