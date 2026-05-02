@@ -7,3 +7,5 @@ In this session we had tested the ask and plan agent of bob and generated a vast
 ##task_f02.md
 ###Revised implementation paln which will work for this project keeping the hackathon in mind. we had tested the plan agent to make the project simple enough to work for a hackathon.
 
+##task_f03.md
+###used the Code agnet of Bob to setup the project requirements- Vite, React, and IBM Carbon Design. the Code agent handled the errors occured during the setup very well.
