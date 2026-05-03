@@ -14,6 +14,7 @@ import {
   Grid,
   Column,
   Theme,
+  Button,
 } from '@carbon/react';
 import {
   Dashboard as DashboardIcon,
@@ -22,6 +23,7 @@ import {
   Settings,
   Notification,
   UserAvatar,
+  Document,
 } from '@carbon/icons-react';
 import EthosEngineLogo from './EthosEngineLogo';
 import NutritionLabel from './NutritionLabel';
@@ -29,6 +31,7 @@ import TrustScoreGauge from './TrustScoreGauge';
 import ScanButton from './ScanButton';
 import EmptyState from './EmptyState';
 import ErrorDisplay from './ErrorDisplay';
+import ReportPage from './ReportPage';
 import { fadeInUp, staggerContainer, scaleIn } from '../utils/animations';
 import BiasBreakdownChart from './charts/BiasBreakdownChart';
 import AuditHistoryTimeline from './charts/AuditHistoryTimeline';
@@ -37,6 +40,7 @@ import './Dashboard.css';
 
 function Dashboard() {
   const [isSideNavExpanded, setIsSideNavExpanded] = useState(false);
+  const [showReport, setShowReport] = useState(false);
 
   // State for Trust Score Gauge - now dynamic based on scan results
   const [trustScoreData, setTrustScoreData] = useState({
@@ -154,6 +158,23 @@ function Dashboard() {
     // Trigger a new scan - this would need to be implemented in ScanButton
   };
 
+  // Handle view report
+  const handleViewReport = () => {
+    if (scanResults) {
+      setShowReport(true);
+    }
+  };
+
+  // Handle back from report
+  const handleBackFromReport = () => {
+    setShowReport(false);
+  };
+
+  // If showing report, render ReportPage
+  if (showReport && scanResults) {
+    return <ReportPage scanResults={scanResults} onBack={handleBackFromReport} />;
+  }
+
   return (
     <Theme theme="g100">
       <div className="dashboard-container">
@@ -169,9 +190,31 @@ function Dashboard() {
 
             {/* Center: Navigation Links */}
             <div className="pill-nav-links">
-              <a href="#dashboard" className="nav-link active">Dashboard</a>
+              <a
+                href="#dashboard"
+                className={`nav-link ${!showReport ? 'active' : ''}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setShowReport(false);
+                }}
+              >
+                Dashboard
+              </a>
               <a href="#audits" className="nav-link">Audits</a>
-              <a href="#reports" className="nav-link">Reports</a>
+              <a
+                href="#reports"
+                className={`nav-link ${showReport ? 'active' : ''}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (scanResults) {
+                    setShowReport(true);
+                  } else {
+                    alert('Please complete a scan first to view the report.');
+                  }
+                }}
+              >
+                Reports
+              </a>
               <a href="#compliance" className="nav-link">Compliance</a>
             </div>
 
@@ -248,6 +291,23 @@ function Dashboard() {
                     <span className="stat-label">Critical Issues</span>
                   </motion.div>
                 </motion.div>
+                {scanResults && (
+                  <motion.div
+                    className="hero-report-button"
+                    variants={fadeInUp}
+                    initial="initial"
+                    animate="animate"
+                  >
+                    <Button
+                      kind="tertiary"
+                      renderIcon={Document}
+                      onClick={handleViewReport}
+                      size="lg"
+                    >
+                      View Full Report
+                    </Button>
+                  </motion.div>
+                )}
               </motion.div>
             </Column>
 
