@@ -168,23 +168,17 @@ function ReportPage({ scanResults, onBack }) {
     return insights;
   };
 
-  // Handle PDF export
+  // Handle PDF export via browser print
   const handleExportPDF = async () => {
     setIsGeneratingPDF(true);
-    
-    // Simulate PDF generation
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // In production, this would call a backend API to generate PDF
-    console.log('Generating PDF report...', scanResults);
-    
+
+    // Brief delay to let the button update to "Generating..." before print dialog opens
+    await new Promise(resolve => setTimeout(resolve, 300));
+
     setIsGeneratingPDF(false);
-    
-    // Create a download link (mock)
-    const link = document.createElement('a');
-    link.href = '#';
-    link.download = `ethos-engine-report-${Date.now()}.pdf`;
-    link.click();
+
+    // Use the browser's native print → Save as PDF
+    window.print();
   };
 
   // Handle share

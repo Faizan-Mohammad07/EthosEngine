@@ -615,23 +615,118 @@
   }
 }
 
-/* Print Styles */
+/* Print Styles — for "Export PDF" via browser print dialog */
 @media print {
+  /* Hide non-report UI */
+  .floating-navbar-container,
   .report-header,
   .back-button,
-  .report-header-actions {
-    display: none;
+  .report-header-actions,
+  .cds--modal-container,
+  .cds--modal {
+    display: none !important;
+  }
+
+  /* Page setup */
+  @page {
+    size: A4;
+    margin: 20mm;
+  }
+
+  /* Reset backgrounds for paper */
+  body,
+  .report-page,
+  .dashboard-container {
+    background: #ffffff !important;
+    color: #161616 !important;
+    padding: 0 !important;
+    min-height: auto !important;
   }
 
   .report-page {
-    background: white;
-    color: black;
+    padding: 0 !important;
   }
 
+  /* Sections */
   .report-section {
+    background: #ffffff !important;
+    border: 1px solid #c6c6c6 !important;
+    box-shadow: none !important;
     page-break-inside: avoid;
-    border: 1px solid #ccc;
-    box-shadow: none;
+    break-inside: avoid;
+    margin-bottom: 16px !important;
+  }
+
+  .executive-summary {
+    border: 2px solid #0f62fe !important;
+  }
+
+  /* Typography for print */
+  .section-title {
+    color: #161616 !important;
+    border-bottom-color: #0f62fe !important;
+  }
+
+  .subsection-title {
+    color: #393939 !important;
+  }
+
+  .status-label,
+  .metadata-label,
+  .metric-label,
+  .detail-label,
+  .card-category {
+    color: #525252 !important;
+  }
+
+  .status-value,
+  .metadata-value,
+  .card-action,
+  .compliance-standard,
+  .no-remediation h3 {
+    color: #161616 !important;
+  }
+
+  .insight-text,
+  .detail-value,
+  .no-remediation p {
+    color: #393939 !important;
+  }
+
+  /* Cards for print */
+  .audit-status-badge,
+  .audit-metadata,
+  .metric-card,
+  .insight-card,
+  .remediation-card,
+  .compliance-card,
+  .ingredient-item,
+  .risk-item {
+    background: #f4f4f4 !important;
+    border-color: #c6c6c6 !important;
+  }
+
+  /* Keep accent colors visible */
+  .audit-status-badge[data-status="green"] {
+    border-left: 4px solid #24a148 !important;
+  }
+  .audit-status-badge[data-status="yellow"] {
+    border-left: 4px solid #f1c21b !important;
+  }
+  .audit-status-badge[data-status="red"] {
+    border-left: 4px solid #da1e28 !important;
+  }
+
+  /* Charts — ensure they print visibly */
+  canvas {
+    max-width: 100% !important;
+  }
+
+  /* Remove hover transforms */
+  * {
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
   }
 }
 
