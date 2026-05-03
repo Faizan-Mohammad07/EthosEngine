@@ -99,7 +99,26 @@ function Dashboard() {
       riskLevel: results.riskLevel,
     });
 
-    // Store full scan results for detailed display
+    // Create the finalized chart data to ensure sync between Dashboard and Report
+    const finalizedBiasBreakdown = results.biasAnalysis?.breakdown || results.biasBreakdown || [
+      { type: 'Demographic', percentage: Math.floor(Math.random() * 30) + 10 },
+      { type: 'Gender', percentage: Math.floor(Math.random() * 25) + 5 },
+      { type: 'Age', percentage: Math.floor(Math.random() * 20) + 5 },
+      { type: 'Geographic', percentage: Math.floor(Math.random() * 15) + 5 }
+    ];
+
+    const finalizedRiskFactors = [
+      { category: 'Critical', count: results.score < 41 ? Math.floor(Math.random() * 5) + 3 : 0 },
+      { category: 'High', count: results.score < 71 ? Math.floor(Math.random() * 4) + 2 : 1 },
+      { category: 'Medium', count: Math.floor(Math.random() * 3) + 1 },
+      { category: 'Low', count: Math.floor(Math.random() * 2) + 1 }
+    ].filter(item => item.count > 0);
+
+    // Attach to results so ReportPage uses the EXACT same data
+    results.finalizedBiasBreakdown = finalizedBiasBreakdown;
+    results.finalizedRiskFactors = finalizedRiskFactors;
+
+    // Store full scan results (AFTER finalized data is attached)
     setScanResults(results);
 
     // Update audit statistics
@@ -117,28 +136,14 @@ function Dashboard() {
       };
     });
 
-    // Update chart data with new scan results
+    // Update chart data
     setChartData(prev => ({
-      // Update bias breakdown from scan results
-      biasBreakdown: results.biasAnalysis?.breakdown || results.biasBreakdown || [
-        { type: 'Demographic', percentage: Math.floor(Math.random() * 30) + 10 },
-        { type: 'Gender', percentage: Math.floor(Math.random() * 25) + 5 },
-        { type: 'Age', percentage: Math.floor(Math.random() * 20) + 5 },
-        { type: 'Geographic', percentage: Math.floor(Math.random() * 15) + 5 }
-      ],
-      // Add to audit history timeline
+      biasBreakdown: finalizedBiasBreakdown,
       auditHistory: [...prev.auditHistory, {
         timestamp: results.timestamp || new Date().toISOString(),
         trustScore: results.score
       }],
-      // Build risk factors as {category, count} objects from the trust score
-      // The API returns riskFactors as plain strings, so we derive severity distribution from the score
-      riskFactors: [
-        { category: 'Critical', count: results.score < 41 ? Math.floor(Math.random() * 5) + 3 : 0 },
-        { category: 'High', count: results.score < 71 ? Math.floor(Math.random() * 4) + 2 : 1 },
-        { category: 'Medium', count: Math.floor(Math.random() * 3) + 1 },
-        { category: 'Low', count: Math.floor(Math.random() * 2) + 1 }
-      ].filter(item => item.count > 0)
+      riskFactors: finalizedRiskFactors
     }));
   };
 

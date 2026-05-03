@@ -356,12 +356,20 @@ function ReportPage({ scanResults, onBack }) {
             <div className="analysis-subsection">
               <h3 className="subsection-title">Bias Breakdown</h3>
               <BiasBreakdownChart 
-                biasData={scanResults.biasBreakdown || [
+                biasData={scanResults.finalizedBiasBreakdown || scanResults.biasBreakdown || [
                   { type: 'Demographic', percentage: 15 },
                   { type: 'Gender', percentage: 12 },
                   { type: 'Age', percentage: 8 },
                   { type: 'Geographic', percentage: 10 }
                 ]}
+              />
+            </div>
+
+            {/* Risk Factor Distribution */}
+            <div className="analysis-subsection">
+              <h3 className="subsection-title">Risk Factor Distribution</h3>
+              <RiskFactorBreakdown 
+                riskFactors={scanResults.finalizedRiskFactors || scanResults.riskFactors || []}
               />
             </div>
 

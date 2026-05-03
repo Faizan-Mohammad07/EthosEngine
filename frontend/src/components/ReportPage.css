@@ -615,118 +615,164 @@
   }
 }
 
-/* Print Styles — for "Export PDF" via browser print dialog */
+/* Professional Print Engine — Optimized for A4 PDF Output */
 @media print {
-  /* Hide non-report UI */
+  /* 1. Fundamental Resets */
+  @page {
+    size: A4;
+    margin: 15mm;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+
+  body, .report-page, .dashboard-container {
+    background: #ffffff !important;
+    color: #161616 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  /* 2. Hide UI Elements */
   .floating-navbar-container,
   .report-header,
   .back-button,
   .report-header-actions,
+  .cds--modal,
   .cds--modal-container,
-  .cds--modal {
+  .pill-navbar {
     display: none !important;
   }
 
-  /* Page setup */
-  @page {
-    size: A4;
-    margin: 20mm;
+  /* 3. Grid & Layout Optimization */
+  .report-grid {
+    display: block !important; /* Flatten grid for print flow */
+    gap: 0 !important;
   }
 
-  /* Reset backgrounds for paper */
-  body,
-  .report-page,
-  .dashboard-container {
-    background: #ffffff !important;
-    color: #161616 !important;
+  .cds--col-lg-16, .cds--col-lg-8, .cds--col {
+    width: 100% !important;
+    max-width: 100% !important;
     padding: 0 !important;
-    min-height: auto !important;
+    margin-bottom: 20px !important;
+    display: block !important;
   }
 
-  .report-page {
-    padding: 0 !important;
-  }
-
-  /* Sections */
+  /* 4. Section Styling — Each section gets its own page */
   .report-section {
     background: #ffffff !important;
-    border: 1px solid #c6c6c6 !important;
+    border: 1px solid #e0e0e0 !important;
+    border-radius: 4px !important;
+    padding: 24px !important;
+    margin-bottom: 0 !important;
     box-shadow: none !important;
-    page-break-inside: avoid;
-    break-inside: avoid;
-    margin-bottom: 16px !important;
+    page-break-after: always !important;
+    break-after: always !important;
   }
 
+  /* The last section should not force a blank trailing page */
+  .report-section:last-child,
+  .remediation-section {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  .section-title {
+    font-size: 1.5rem !important;
+    color: #0f62fe !important;
+    border-bottom: 2px solid #0f62fe !important;
+    margin-bottom: 15px !important;
+    padding-bottom: 5px !important;
+    text-transform: uppercase;
+  }
+
+  /* 5. Executive Summary Fixes */
   .executive-summary {
     border: 2px solid #0f62fe !important;
   }
 
-  /* Typography for print */
-  .section-title {
-    color: #161616 !important;
-    border-bottom-color: #0f62fe !important;
+  .executive-content {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 20px !important;
   }
 
-  .subsection-title {
-    color: #393939 !important;
+  .trust-score-hero {
+    transform: scale(0.85) !important; /* Shrink gauge slightly for print */
+    margin-bottom: -20px !important;
   }
 
-  .status-label,
-  .metadata-label,
-  .metric-label,
-  .detail-label,
-  .card-category {
-    color: #525252 !important;
+  /* 6. Chart Fix (Remove Black Boxes) */
+  canvas, svg {
+    background: transparent !important;
+    filter: none !important;
   }
 
-  .status-value,
-  .metadata-value,
-  .card-action,
-  .compliance-standard,
-  .no-remediation h3 {
-    color: #161616 !important;
+  /* Force charts to be visible but clean */
+  .chart-wrapper, .cds--chart-holder {
+    background: transparent !important;
   }
 
-  .insight-text,
-  .detail-value,
-  .no-remediation p {
-    color: #393939 !important;
-  }
-
-  /* Cards for print */
-  .audit-status-badge,
-  .audit-metadata,
-  .metric-card,
-  .insight-card,
-  .remediation-card,
-  .compliance-card,
-  .ingredient-item,
-  .risk-item {
+  /* 7. Card Styling (Condensed) */
+  .audit-status-badge, .audit-metadata, .metric-card, .insight-card, 
+  .remediation-card, .compliance-card, .ingredient-item, .risk-item {
     background: #f4f4f4 !important;
-    border-color: #c6c6c6 !important;
+    border: 1px solid #d0d0d0 !important;
+    padding: 10px 15px !important;
+    margin-bottom: 8px !important;
   }
 
-  /* Keep accent colors visible */
-  .audit-status-badge[data-status="green"] {
-    border-left: 4px solid #24a148 !important;
-  }
-  .audit-status-badge[data-status="yellow"] {
-    border-left: 4px solid #f1c21b !important;
-  }
-  .audit-status-badge[data-status="red"] {
-    border-left: 4px solid #da1e28 !important;
+  .remediation-steps {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 15px !important;
   }
 
-  /* Charts — ensure they print visibly */
-  canvas {
-    max-width: 100% !important;
+  .remediation-card {
+    margin-bottom: 0 !important;
   }
 
-  /* Remove hover transforms */
-  * {
-    transform: none !important;
-    transition: none !important;
-    animation: none !important;
+  .compliance-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  /* 8. Text Color Fixes */
+  .status-value, .metadata-value, .card-action, .compliance-standard {
+    color: #161616 !important;
+    font-size: 1rem !important;
+  }
+
+  .status-label, .metadata-label, .metric-label, .detail-label, .card-category {
+    color: #525252 !important;
+    font-size: 0.75rem !important;
+  }
+
+  .insight-text, .detail-value, .no-remediation p {
+    color: #393939 !important;
+    font-size: 0.875rem !important;
+  }
+
+  /* 9. Header Branding for Print */
+  .report-page::before {
+    content: "EthosEngine | Professional AI Audit Report";
+    display: block;
+    text-align: right;
+    font-size: 10px;
+    color: #8d8d8d;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 5px;
   }
 }
 
