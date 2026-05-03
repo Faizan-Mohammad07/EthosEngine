@@ -14,6 +14,7 @@ import {
   Grid,
   Column,
   Theme,
+  Button,
 } from '@carbon/react';
 import {
   Dashboard as DashboardIcon,
@@ -22,6 +23,7 @@ import {
   Settings,
   Notification,
   UserAvatar,
+  Document,
 } from '@carbon/icons-react';
 import EthosEngineLogo from './EthosEngineLogo';
 import NutritionLabel from './NutritionLabel';
@@ -29,6 +31,7 @@ import TrustScoreGauge from './TrustScoreGauge';
 import ScanButton from './ScanButton';
 import EmptyState from './EmptyState';
 import ErrorDisplay from './ErrorDisplay';
+import ReportPage from './ReportPage';
 import { fadeInUp, staggerContainer, scaleIn } from '../utils/animations';
 import BiasBreakdownChart from './charts/BiasBreakdownChart';
 import AuditHistoryTimeline from './charts/AuditHistoryTimeline';
@@ -37,6 +40,7 @@ import './Dashboard.css';
 
 function Dashboard() {
   const [isSideNavExpanded, setIsSideNavExpanded] = useState(false);
+  const [showReport, setShowReport] = useState(false);
 
   // State for Trust Score Gauge - now dynamic based on scan results
   const [trustScoreData, setTrustScoreData] = useState({
@@ -95,7 +99,26 @@ function Dashboard() {
       riskLevel: results.riskLevel,
     });
 
-    // Store full scan results for detailed display
+    // Create the finalized chart data to ensure sync between Dashboard and Report
+    const finalizedBiasBreakdown = results.biasAnalysis?.breakdown || results.biasBreakdown || [
+      { type: 'Demographic', percentage: Math.floor(Math.random() * 30) + 10 },
+      { type: 'Gender', percentage: Math.floor(Math.random() * 25) + 5 },
+      { type: 'Age', percentage: Math.floor(Math.random() * 20) + 5 },
+      { type: 'Geographic', percentage: Math.floor(Math.random() * 15) + 5 }
+    ];
+
+    const finalizedRiskFactors = [
+      { category: 'Critical', count: results.score < 41 ? Math.floor(Math.random() * 5) + 3 : 0 },
+      { category: 'High', count: results.score < 71 ? Math.floor(Math.random() * 4) + 2 : 1 },
+      { category: 'Medium', count: Math.floor(Math.random() * 3) + 1 },
+      { category: 'Low', count: Math.floor(Math.random() * 2) + 1 }
+    ].filter(item => item.count > 0);
+
+    // Attach to results so ReportPage uses the EXACT same data
+    results.finalizedBiasBreakdown = finalizedBiasBreakdown;
+    results.finalizedRiskFactors = finalizedRiskFactors;
+
+    // Store full scan results (AFTER finalized data is attached)
     setScanResults(results);
 
     // Update audit statistics
@@ -113,28 +136,14 @@ function Dashboard() {
       };
     });
 
-    // Update chart data with new scan results
+    // Update chart data
     setChartData(prev => ({
-      // Update bias breakdown from scan results
-      biasBreakdown: results.biasAnalysis?.breakdown || results.biasBreakdown || [
-        { type: 'Demographic', percentage: Math.floor(Math.random() * 30) + 10 },
-        { type: 'Gender', percentage: Math.floor(Math.random() * 25) + 5 },
-        { type: 'Age', percentage: Math.floor(Math.random() * 20) + 5 },
-        { type: 'Geographic', percentage: Math.floor(Math.random() * 15) + 5 }
-      ],
-      // Add to audit history timeline
+      biasBreakdown: finalizedBiasBreakdown,
       auditHistory: [...prev.auditHistory, {
         timestamp: results.timestamp || new Date().toISOString(),
         trustScore: results.score
       }],
-      // Build risk factors as {category, count} objects from the trust score
-      // The API returns riskFactors as plain strings, so we derive severity distribution from the score
-      riskFactors: [
-        { category: 'Critical', count: results.score < 41 ? Math.floor(Math.random() * 5) + 3 : 0 },
-        { category: 'High', count: results.score < 71 ? Math.floor(Math.random() * 4) + 2 : 1 },
-        { category: 'Medium', count: Math.floor(Math.random() * 3) + 1 },
-        { category: 'Low', count: Math.floor(Math.random() * 2) + 1 }
-      ].filter(item => item.count > 0)
+      riskFactors: finalizedRiskFactors
     }));
   };
 
@@ -154,6 +163,23 @@ function Dashboard() {
     // Trigger a new scan - this would need to be implemented in ScanButton
   };
 
+  // Handle view report
+  const handleViewReport = () => {
+    if (scanResults) {
+      setShowReport(true);
+    }
+  };
+
+  // Handle back from report
+  const handleBackFromReport = () => {
+    setShowReport(false);
+  };
+
+  // If showing report, render ReportPage
+  if (showReport && scanResults) {
+    return <ReportPage scanResults={scanResults} onBack={handleBackFromReport} />;
+  }
+
   return (
     <Theme theme="g100">
       <div className="dashboard-container">
@@ -169,9 +195,31 @@ function Dashboard() {
 
             {/* Center: Navigation Links */}
             <div className="pill-nav-links">
-              <a href="#dashboard" className="nav-link active">Dashboard</a>
+              <a
+                href="#dashboard"
+                className={`nav-link ${!showReport ? 'active' : ''}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setShowReport(false);
+                }}
+              >
+                Dashboard
+              </a>
               <a href="#audits" className="nav-link">Audits</a>
-              <a href="#reports" className="nav-link">Reports</a>
+              <a
+                href="#reports"
+                className={`nav-link ${showReport ? 'active' : ''}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (scanResults) {
+                    setShowReport(true);
+                  } else {
+                    alert('Please complete a scan first to view the report.');
+                  }
+                }}
+              >
+                Reports
+              </a>
               <a href="#compliance" className="nav-link">Compliance</a>
             </div>
 
@@ -248,6 +296,23 @@ function Dashboard() {
                     <span className="stat-label">Critical Issues</span>
                   </motion.div>
                 </motion.div>
+                {scanResults && (
+                  <motion.div
+                    className="hero-report-button"
+                    variants={fadeInUp}
+                    initial="initial"
+                    animate="animate"
+                  >
+                    <Button
+                      kind="tertiary"
+                      renderIcon={Document}
+                      onClick={handleViewReport}
+                      size="lg"
+                    >
+                      View Full Report
+                    </Button>
+                  </motion.div>
+                )}
               </motion.div>
             </Column>
 
