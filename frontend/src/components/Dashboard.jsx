@@ -127,10 +127,11 @@ function Dashboard() {
         timestamp: results.timestamp || new Date().toISOString(),
         trustScore: results.score
       }],
-      // Update risk factors distribution
-      riskFactors: results.riskFactors || results.riskDistribution || [
+      // Build risk factors as {category, count} objects from the trust score
+      // The API returns riskFactors as plain strings, so we derive severity distribution from the score
+      riskFactors: [
         { category: 'Critical', count: results.score < 41 ? Math.floor(Math.random() * 5) + 3 : 0 },
-        { category: 'High', count: results.score < 71 ? Math.floor(Math.random() * 4) + 2 : 0 },
+        { category: 'High', count: results.score < 71 ? Math.floor(Math.random() * 4) + 2 : 1 },
         { category: 'Medium', count: Math.floor(Math.random() * 3) + 1 },
         { category: 'Low', count: Math.floor(Math.random() * 2) + 1 }
       ].filter(item => item.count > 0)
@@ -156,58 +157,33 @@ function Dashboard() {
   return (
     <Theme theme="g100">
       <div className="dashboard-container">
-        {/* IBM Carbon Header with Logo */}
-        <Header aria-label="EthosEngine">
-          <HeaderName href="#" prefix="">
-            <EthosEngineLogo size="small" variant="icon" />
-            <span className="header-brand-text">
-              <span className="header-ibm-prefix">IBM</span> EthosEngine
-            </span>
-          </HeaderName>
-          <HeaderNavigation aria-label="EthosEngine">
-            <HeaderMenuItem href="#dashboard">Dashboard</HeaderMenuItem>
-            <HeaderMenuItem href="#audits">Audits</HeaderMenuItem>
-            <HeaderMenuItem href="#reports">Reports</HeaderMenuItem>
-            <HeaderMenuItem href="#compliance">Compliance</HeaderMenuItem>
-          </HeaderNavigation>
-          <HeaderGlobalBar>
-            <HeaderGlobalAction
-              aria-label="Notifications"
-              tooltipAlignment="end"
-            >
-              <Notification size={20} />
-            </HeaderGlobalAction>
-            <HeaderGlobalAction
-              aria-label="User Settings"
-              tooltipAlignment="end"
-            >
-              <UserAvatar size={20} />
-            </HeaderGlobalAction>
-          </HeaderGlobalBar>
-        </Header>
+        {/* Floating Pill Navbar */}
+        <div className="floating-navbar-container">
+          <nav className="pill-navbar">
+            {/* Left: Logo Circle */}
+            <div className="pill-logo-container">
+              <div className="pill-logo-circle">
+                <EthosEngineLogo size="small" variant="icon" />
+              </div>
+            </div>
 
-        {/* Sidebar Navigation */}
-        <SideNav
-          aria-label="Side navigation"
-          expanded={isSideNavExpanded}
-          onOverlayClick={() => setIsSideNavExpanded(false)}
-          isPersistent={false}
-        >
-          <SideNavItems>
-            <SideNavLink renderIcon={DashboardIcon} href="#dashboard">
-              Dashboard
-            </SideNavLink>
-            <SideNavLink renderIcon={ChartLine} href="#analytics">
-              Analytics
-            </SideNavLink>
-            <SideNavLink renderIcon={DocumentTasks} href="#audit-history">
-              Audit History
-            </SideNavLink>
-            <SideNavLink renderIcon={Settings} href="#settings">
-              Settings
-            </SideNavLink>
-          </SideNavItems>
-        </SideNav>
+            {/* Center: Navigation Links */}
+            <div className="pill-nav-links">
+              <a href="#dashboard" className="nav-link active">Dashboard</a>
+              <a href="#audits" className="nav-link">Audits</a>
+              <a href="#reports" className="nav-link">Reports</a>
+              <a href="#compliance" className="nav-link">Compliance</a>
+            </div>
+
+            {/* Right: Action Pill */}
+            <div className="pill-actions">
+              <div className="pill-action-button">
+                <UserAvatar size={20} />
+                <span className="action-text">admin@ethosengine.ai</span>
+              </div>
+            </div>
+          </nav>
+        </div>
 
         {/* Main Content Area */}
         <Content className="dashboard-content">

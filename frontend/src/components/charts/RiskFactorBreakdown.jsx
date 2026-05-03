@@ -17,10 +17,16 @@ import './RiskFactorBreakdown.css';
 
 function RiskFactorBreakdown({ riskFactors }) {
   // Transform risk factors data for Carbon Charts format
-  const chartData = riskFactors?.map(factor => ({
-    group: factor.category || factor.severity || factor.level,
-    value: factor.count || factor.value || 1
-  })) || [];
+  const chartData = riskFactors?.map(factor => {
+    // Handle both object and string formats from the API
+    if (typeof factor === 'string') {
+      return { group: factor, value: 1 };
+    }
+    return {
+      group: factor.category || factor.severity || factor.level || 'Unknown',
+      value: factor.count || factor.value || 1
+    };
+  }).filter(item => item.group) || [];
 
   // Calculate total risks
   const totalRisks = chartData.reduce((sum, item) => sum + item.value, 0);
@@ -90,7 +96,7 @@ function RiskFactorBreakdown({ riskFactors }) {
       <div className="risk-chart-summary">
         <div className="summary-grid">
           {chartData.map((item, index) => (
-            <div key={index} className={`summary-item severity-${item.group.toLowerCase()}`}>
+            <div key={index} className={`summary-item severity-${(item.group || 'unknown').toLowerCase()}`}>
               <div className="summary-header">
                 <span className="summary-dot"></span>
                 <span className="summary-label">{item.group}</span>

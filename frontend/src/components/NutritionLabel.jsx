@@ -170,9 +170,24 @@ function NutritionLabel({ scanResults, loading = false }) {
                 <StructuredListCell>{risk.type}</StructuredListCell>
                 <StructuredListCell className="risk-value">{risk.value}</StructuredListCell>
                 <StructuredListCell>
-                  <Tag type={risk.level === 'green' ? 'green' : risk.level === 'yellow' ? 'warm-gray' : 'red'}>
+                  <span
+                    className="risk-status-badge"
+                    style={{
+                      backgroundColor:
+                        risk.level === 'green' ? '#24a148' :
+                        risk.level === 'yellow' ? '#f1c21b' :
+                        risk.level === 'red' ? '#da1e28' : '#525252',
+                      color: risk.level === 'yellow' ? '#161616' : '#ffffff',
+                      padding: '4px 12px',
+                      borderRadius: '100px',
+                      fontSize: '12px',
+                      fontWeight: 600,
+                      letterSpacing: '0.02em',
+                      display: 'inline-block',
+                    }}
+                  >
                     {risk.level.toUpperCase()}
-                  </Tag>
+                  </span>
                 </StructuredListCell>
               </StructuredListRow>
             ))}
