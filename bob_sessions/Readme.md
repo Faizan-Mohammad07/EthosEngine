@@ -36,3 +36,21 @@ In this session we had tested the ask and plan agent of bob and generated a vast
 
 ## task_f11.md
 ### worked on the style refineing of the application, tested bob's image analysis capability, saw good results. fixed the style issue in just one go.
+
+## task_s01.md
+### Initialized the FastAPI backend for the EthosEngine sentinel, establishing the directory structure, core endpoints, and environment configurations for IBM Granite Guardian integration.
+
+## task_s02.md
+### Upgraded the FastAPI backend with environment-driven CORS security, centralized global exception handling, and strict Pydantic request validation to ensure robust, production-grade error management.
+
+## task_s03.md
+### Established the response_formatter.py utility to transform IBM Granite Guardian model outputs into dashboard-ready JSON, including logic for calculating trust scores, risk levels, and detailed bias and safety analyses.
+
+## task_s04.md
+### Established the IBM Granite Guardian integration for the FastAPI backend, including the necessary environment configurations and API calls to retrieve data from IBM Granite Guardian.
+
+## task_s11.md
+### Integrated the EthosEngine frontend with the FastAPI backend, replacing mock data with real-time API calls to IBM Granite Guardian. Implemented a robust Axios-based service layer featuring automatic retry logic, dual-mode (API/Mock) fallback, and comprehensive error handling across the ScanButton and Dashboard components.
+
+# task_s12.md
+### Implemented professional, 60 FPS animations using IBM Carbon skeletons to enhance the EthosEngine UI with smooth transitions, an animated trust gauge, and a pulsing scan button.
