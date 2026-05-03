@@ -17,7 +17,7 @@ import axios from 'axios';
 
 // API Configuration
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
-const API_TIMEOUT = 30000; // 30 seconds
+const API_TIMEOUT = 90000; // 90 seconds (Extended for deep IBM Granite analysis)
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000; // 1 second
 

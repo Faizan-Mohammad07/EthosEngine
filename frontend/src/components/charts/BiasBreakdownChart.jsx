@@ -3,12 +3,6 @@
  * 
  * Displays a bar chart showing the breakdown of different bias types detected
  * in the AI model analysis. Uses IBM Carbon Charts for consistent styling.
- * 
- * Features:
- * - Color-coded bars based on severity (Red/Orange/Yellow/Green)
- * - Responsive design
- * - Empty state handling
- * - Smooth animations
  */
 
 import { SimpleBarChart } from '@carbon/charts-react';
@@ -22,9 +16,24 @@ function BiasBreakdownChart({ biasData }) {
     value: item.percentage || item.score || 0
   })) || [];
 
+  // Helper to get color based on value (matching the legend)
+  const getLevelColor = (value) => {
+    if (value >= 70) return '#da1e28'; // Critical (Red)
+    if (value >= 40) return '#ff832b'; // High (Orange)
+    if (value >= 20) return '#f1c21b'; // Medium (Yellow)
+    return '#24a148'; // Low (Green)
+  };
+
+  // Generate a dynamic color scale mapping each group to its severity color
+  const dynamicColorScale = {};
+  chartData.forEach(item => {
+    dynamicColorScale[item.group] = getLevelColor(item.value);
+  });
+
   // Chart configuration options
   const options = {
     title: 'Bias Detection Breakdown',
+    theme: 'g100',
     axes: {
       left: {
         mapsTo: 'value',
@@ -38,33 +47,15 @@ function BiasBreakdownChart({ biasData }) {
       }
     },
     height: '350px',
-    toolbar: {
-      enabled: false
-    },
-    legend: {
-      enabled: false
-    },
+    toolbar: { enabled: false },
+    legend: { enabled: false },
     color: {
-      scale: {
-        'Demographic': '#da1e28',  // Red - Critical
-        'Gender': '#ff832b',       // Orange - High
-        'Age': '#f1c21b',          // Yellow - Medium
-        'Geographic': '#24a148',   // Green - Low
-        'Socioeconomic': '#ff832b',
-        'Cultural': '#f1c21b',
-        'Language': '#24a148'
-      }
+      scale: dynamicColorScale
     },
-    bars: {
-      maxWidth: 50
-    },
+    bars: { maxWidth: 50 },
     grid: {
-      x: {
-        enabled: false
-      },
-      y: {
-        enabled: true
-      }
+      x: { enabled: false },
+      y: { enabled: true }
     }
   };
 
@@ -106,5 +97,3 @@ function BiasBreakdownChart({ biasData }) {
 }
 
 export default BiasBreakdownChart;
-
-// Made with Bob

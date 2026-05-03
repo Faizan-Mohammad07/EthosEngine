@@ -26,6 +26,7 @@ function AuditHistoryTimeline({ auditHistory }) {
   // Chart configuration options
   const options = {
     title: 'Trust Score History',
+    theme: 'g100',
     axes: {
       bottom: {
         title: 'Date & Time',

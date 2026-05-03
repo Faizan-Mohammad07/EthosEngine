@@ -28,6 +28,7 @@ function RiskFactorBreakdown({ riskFactors }) {
   // Chart configuration options
   const options = {
     title: 'Risk Factor Distribution',
+    theme: 'g100',
     resizable: true,
     donut: {
       center: {
@@ -57,7 +58,11 @@ function RiskFactorBreakdown({ riskFactors }) {
     pie: {
       labels: {
         enabled: true,
-        formatter: (value) => `${value}%`
+        formatter: (data) => {
+          // Carbon Charts label formatter can receive an object or a raw value
+          const value = typeof data === 'object' ? data.value : data;
+          return `${value}`;
+        }
       }
     },
     tooltip: {

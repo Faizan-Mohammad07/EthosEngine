@@ -225,9 +225,6 @@ function ScanButton({ onScanComplete, onScanStart, onScanError }) {
                 <Button size="sm" kind="tertiary" onClick={handleRetry}>
                   Retry
                 </Button>
-                <Button size="sm" kind="secondary" onClick={handleUseMockData}>
-                  Use Demo Mode
-                </Button>
               </div>
             }
             className="scan-error-notification"
@@ -235,23 +232,6 @@ function ScanButton({ onScanComplete, onScanStart, onScanError }) {
         </motion.div>
       )}
 
-      {/* Mock Data Mode Indicator */}
-      {useMockData && !error && (
-        <motion.div
-          variants={fadeIn}
-          initial="initial"
-          animate="animate"
-        >
-          <InlineNotification
-            kind="info"
-            title="Demo Mode Active"
-            subtitle="Using simulated data. Connect to backend for real IBM Granite analysis."
-            hideCloseButton
-            lowContrast
-            className="scan-info-notification"
-          />
-        </motion.div>
-      )}
 
       {/* Main Scan Button */}
       <div className="scan-button-wrapper">
@@ -402,7 +382,7 @@ function ScanButton({ onScanComplete, onScanStart, onScanError }) {
           <div className="modal-info">
             <CheckmarkFilled size={16} className="info-icon" />
             <span className="info-text">
-              This is a demo. Real scans will use IBM Granite Guardian for analysis.
+              Real-time audit powered by IBM Granite Guardian models.
             </span>
           </div>
         </motion.div>

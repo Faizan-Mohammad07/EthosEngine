@@ -13,7 +13,6 @@ import logging
 from typing import Dict, Any, Optional, List
 from ibm_watsonx_ai.foundation_models import Model
 from ibm_watsonx_ai.metanames import GenTextParamsMetaNames as GenParams
-from ibm_watsonx_ai import Credentials
 import re
 
 logger = logging.getLogger(__name__)
@@ -44,11 +43,11 @@ class GraniteService:
         self.project_id = project_id
         self.url = url
         
-        # Initialize IBM watsonx.ai credentials
-        self.credentials = Credentials(
-            api_key=self.api_key,
-            url=self.url
-        )
+        # Initialize IBM watsonx.ai credentials as a dictionary for maximum compatibility
+        self.credentials = {
+            "url": self.url,
+            "apikey": self.api_key
+        }
         
         logger.info("GraniteService initialized with IBM watsonx.ai credentials")
     
