@@ -7,8 +7,16 @@
   text-align: center;
   min-height: 400px;
   background: var(--cds-layer-01);
-  border-radius: 4px;
+  border-radius: 12px;
+  /* 12px rounded corners for softer, premium appearance */
   border: 1px dashed var(--cds-border-subtle-01);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.empty-state:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
 }
 
 .empty-state__icon {

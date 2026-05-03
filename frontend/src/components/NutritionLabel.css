@@ -12,16 +12,24 @@
 .nutrition-label {
   background-color: #262626; /* Dark mode background */
   border: 1px solid #393939; /* Border per guidelines */
-  border-radius: 0px; /* Strict professional look per guidelines */
+  border-radius: 8px; /* 8px rounded corners for modern premium feel */
   padding: 0; /* No padding on container, padding on sections */
   font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  overflow: hidden;
+}
+
+.nutrition-label:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
 }
 
 /* Header Section */
 .nutrition-label-header {
   padding: 24px; /* 24px comfortable padding per guidelines */
   border-bottom: 1px solid #393939; /* Clear border separation */
-  background-color: #161616; /* Darker header background */
+  background: linear-gradient(135deg, #161616 0%, #1a1a1a 100%); /* Subtle gradient for depth */
 }
 
 .nutrition-label-title {
@@ -108,7 +116,7 @@
 
 .nutrition-list .cds--structured-list {
   border: 1px solid #393939; /* Border per guidelines */
-  border-radius: 0px; /* Strict professional look per guidelines */
+  border-radius: 4px; /* 4px subtle rounded corners */
   margin: 0;
 }
 
